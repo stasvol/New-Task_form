@@ -4,12 +4,12 @@ import {BrowserRouter, NavLink} from "react-router-dom"
 import Basic from "./tasks";
 const { Header, Content, Footer } = Layout;
 
-const HeaderTask =() => {
+const HeaderTask =(props) => {
 
    return <Layout>
         <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
             <div className="logo"/>
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1"><NavLink to={'/HeaderTask'} >Add task</NavLink></Menu.Item>
                 <Menu.Item key="2"><NavLink to={'/QQQQQQQQ'} >QQQQQQQQ</NavLink></Menu.Item>
                 <Menu.Item key="3"><NavLink to={'/ASD'} >ASD</NavLink></Menu.Item>
@@ -24,7 +24,7 @@ const HeaderTask =() => {
             {/*</Breadcrumb>*/}
             <div className="site-layout-background" style={{padding: 24, minHeight: 380}}>
                 Content
-                <Basic/>
+                <Basic />
             </div>
         </Content>
         <Footer style={{textAlign: 'center'}}>App ©2021 Created by Artur</Footer>

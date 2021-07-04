@@ -1,3 +1,4 @@
+import thunk from "redux-thunk";
 const ADD_TASK = 'ADD_TASK'
 
 const initialState ={
@@ -16,6 +17,7 @@ const addTaskReducer = (state = initialState, action) => {
         case ADD_TASK:
 
             return {
+
                 ...state,
                 payload: action.payload
 
@@ -30,8 +32,8 @@ const addTaskReducer = (state = initialState, action) => {
 export const addTask =(id,status,email, name,text) => ({type: ADD_TASK, payload:{id,status,email, name,text}});
 
 
-export const addTaskThunkCreator = (id,status,email, name,text) => async (dispatch) => {
-    debugger
+export const addTaskThunkCreator = () => async (dispatch) => {
+
     const data = await fetch('https://uxcandy.com/~shapoval/test-task-backend/?developer=Name')
         .then(response=>response.json() )
         .then(data=> data)

@@ -73,6 +73,7 @@ import React, {useEffect, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import {addTaskThunkCreator} from "../store/addTask-reducer";
 import {MyPagination} from "../pagination/pagination";
+import AddTask from "./add-task";
 
 
 const Basic = () => {
@@ -145,7 +146,7 @@ const Basic = () => {
                 <label htmlFor={'Task'}>Task</label>
                 <Field type="textarea" component={'textarea'} name="textarea" placeholder={'task'}/>
                 <div>
-                    <button  type="submit" disabled={isSubmitting}>Submit</button>
+                    <button onClick={addTaskThunkCreator(data)} type="submit" disabled={isSubmitting}>Submit</button>
                 </div>
 
             </Form>
@@ -156,6 +157,7 @@ const Basic = () => {
       data.message.tasks.map(el=> <li key={el.id}>Name:{el.username} <br/>Email: {el.email}<br/>Text: {el.text}<br/>Status: {el.status}<br/> <img src={el.image_path}/></li>)
       }
       <MyPagination/>
+      <AddTask/>
   </div>
 
 }

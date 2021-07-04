@@ -11,10 +11,11 @@ import {BrowserRouter,Route} from "react-router-dom";
 function App() {
 
   return (
-      <BrowserRouter>
 
+      <BrowserRouter>
        {/*<Basic/>*/}
-        <Route exact path={'/HeaderTask'} render={() => <HeaderTask/>}/>
+        <Route exact path={'/'} render={() => <HeaderTask/>}/>
+        <Route  path={'/HeaderTask'} render={() => <HeaderTask/>}/>
         <Route path={'/QQQQQQQQ'} render={() => <div>QQQQQQQQ</div>}/>
         <Route path={'/ASD'} render={() => <div>ASD</div>}/>
           {/*<HeaderTask/>*/}
