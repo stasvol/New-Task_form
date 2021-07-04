@@ -71,34 +71,41 @@
 // export default Basic;
 import React, {useEffect, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
+import {addTaskThunkCreator} from "../store/addTask-reducer";
+import {MyPagination} from "../pagination/pagination";
+
 
 const Basic = () => {
 
     const  [data, setData] = useState([])
 
+
     useEffect(() => {
         fetch('https://uxcandy.com/~shapoval/test-task-backend/?developer=Name')
             .then((response) => response.json())
 
-            .then(data => dataForm(data))
+            .then(data => dataFormTask(data))
     },[])
 
-    const dataForm =data=> {
+    const dataFormTask =data=> {
         setData(data)
     }
 
-    console.log(data.message.tasks)
+    console.log(data.message?.tasks)
        // <h2> TASK </h2>
   return <div>
     <Formik
-        initialValues={{email: '', password: ''}}
+        initialValues={{name: '',email: '', password: ''}}
         validate={values => {
+
             const errors = {};
             if (!values.name || values.name.length < 3) {
-                errors.name = 'Required - Enter your name';
-            }
-            if (!values.email) {
-                errors.email = 'Required';
+                errors.name = 'Required, Enter your name-min length > 3 symbol';
+            } else if(
+                !/^[A-Z]/i.test(values.name)
+            ) {
+            } if (!values.email) {
+                errors.email = 'Required, Enter your email';
             } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
@@ -118,12 +125,13 @@ const Basic = () => {
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
             }, 400);
+
         }}
     >
         {({isSubmitting}) => (
             <Form>
                 <label htmlFor={'Name'}>Name</label>
-                <Field type="text" name="name" placeholder={'name'}/>
+                <Field type="text" name="name" placeholder={'name'} />
                 <ErrorMessage name="name" component="div" className={'error'}/>
 
                 <label htmlFor={'Email'}>Email</label>
@@ -137,16 +145,17 @@ const Basic = () => {
                 <label htmlFor={'Task'}>Task</label>
                 <Field type="textarea" component={'textarea'} name="textarea" placeholder={'task'}/>
                 <div>
-                    <button type="submit" disabled={isSubmitting}>Submit</button>
+                    <button  type="submit" disabled={isSubmitting}>Submit</button>
                 </div>
 
             </Form>
 
         )}
     </Formik>
-      { data && data.message.tasks.length &&
+      { data.message?.tasks?.length &&
       data.message.tasks.map(el=> <li key={el.id}>Name:{el.username} <br/>Email: {el.email}<br/>Text: {el.text}<br/>Status: {el.status}<br/> <img src={el.image_path}/></li>)
       }
+      <MyPagination/>
   </div>
 
 }
