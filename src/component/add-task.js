@@ -1,20 +1,26 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {Redirect} from "react-router-dom";
 
 
 const AddTask = () => {
-    // const name = 'admin'
-    // const password = 123
+// const [name, setName ] = useState([])
 
-  const handlerForm =(name,password)=>{
-      if ( name=== 'admin' && password === 123){
+    const handlerForm =(e)=>{
 
-      }
+        e.preventDefault()
+     const value = e.target.value
+     const password  =  e.target.name
+
+     if (password === 123 && value === 'admin' ) {
+         <Redirect to={'/QQQ'}/>
+     }
+        console.log(value + ''+ password)
   }
     return <div>
-        <form action={'/ASD'}>
-            <input name={'name'} autocomplete={'admin'}  />
-            <input type={'password'} autocomplete={123} />
-            <button onClick={handlerForm}>Edit</button>
+        <form >
+            <input onChange={handlerForm} type={'text'} name={'admin'} autoComplete={'admin'}   />
+            <input onChange={handlerForm} type={'password'} name={'password'}  />
+            <button >Edit</button>
 
         </form>
     </div>

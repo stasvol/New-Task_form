@@ -19,7 +19,7 @@ const addTaskReducer = (state = initialState, action) => {
             return {
 
                 ...state,
-                payload: action.payload
+                payload:[...action.payload]
 
 
             }
@@ -38,7 +38,7 @@ export const addTaskThunkCreator = () => async (dispatch) => {
         .then(response=>response.json() )
         .then(data=> data)
     // .then(data => {         // return - промисы - для app_reducer
-
+    console.log('THUNK ', data)
         dispatch(addTask(data));
 
 }

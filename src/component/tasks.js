@@ -74,9 +74,10 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import {addTaskThunkCreator} from "../store/addTask-reducer";
 import {MyPagination} from "../pagination/pagination";
 import AddTask from "./add-task";
+import {Redirect} from "react-router-dom";
 
 
-const Basic = () => {
+const Tasks = () => {
 
     const  [data, setData] = useState([])
 
@@ -146,7 +147,7 @@ const Basic = () => {
                 <label htmlFor={'Task'}>Task</label>
                 <Field type="textarea" component={'textarea'} name="textarea" placeholder={'task'}/>
                 <div>
-                    <button onClick={addTaskThunkCreator(data)} type="submit" disabled={isSubmitting}>Submit</button>
+                    <button  type="submit" disabled={isSubmitting}>Submit</button>
                 </div>
 
             </Form>
@@ -162,4 +163,4 @@ const Basic = () => {
 
 }
 
-export default Basic;
+export default Tasks;
