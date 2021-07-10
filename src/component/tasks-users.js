@@ -71,30 +71,30 @@
 // export default Basic;
 import React, {useEffect, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
-import {addTaskThunkCreator} from "../store/addTask-reducer";
+import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
 import {MyPagination} from "../pagination/pagination";
-import AddTask from "./add-task";
+import AdminEdit from "./admin-edit";
 import {Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
 
-const Tasks = () => {
 
-    const  [data, setData] = useState([])
+const TasksUsers = (props) => {
 
+    // const  [data, setData] = useState([])
+    //
+    //
+    // useEffect(() => {
+    //     fetch('https://uxcandy.com/~shapoval/test-task-backend/?developer=Name')
+    //         .then((response) => response.json())
+    //
+    //         .then(data => dataFormTask(data))
+    // },[])
+    //
+    // const dataFormTask =data=> {
+    //     setData(data)
+    // }
 
-    useEffect(() => {
-        fetch('https://uxcandy.com/~shapoval/test-task-backend/?developer=Name')
-            .then((response) => response.json())
-
-            .then(data => dataFormTask(data))
-    },[])
-
-    const dataFormTask =data=> {
-        setData(data)
-    }
-
-    console.log(data.message?.tasks)
-       // <h2> TASK </h2>
   return <div>
     <Formik
         initialValues={{name: '',email: '', password: ''}}
@@ -154,13 +154,21 @@ const Tasks = () => {
 
         )}
     </Formik>
-      { data.message?.tasks?.length &&
-      data.message.tasks.map(el=> <li key={el.id}>Name:{el.username} <br/>Email: {el.email}<br/>Text: {el.text}<br/>Status: {el.status}<br/> <img src={el.image_path}/></li>)
+      { props.message?.tasks?.length &&
+      props.message.tasks.map(el=> <div key={el.id}>Name:{el.username} <br/>Email: {el.email}<br/>Text: {el.text}<br/>Status: {el.status}<br/> <img src={el.image_path}/></div>)
       }
       <MyPagination/>
-      <AddTask/>
+      <AdminEdit/>
   </div>
 
 }
 
-export default Tasks;
+const mapStateToProps =(state) => {
+
+    return {
+        message:state.addTask.message,
+        users:state.addTask.users
+    }
+}
+
+export default connect(mapStateToProps,getTaskThunkCreator,addTaskThunk)(TasksUsers) ;

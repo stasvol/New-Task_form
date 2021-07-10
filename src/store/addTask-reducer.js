@@ -1,46 +1,85 @@
 import thunk from "redux-thunk";
-const ADD_TASK = 'ADD_TASK'
 
-const initialState ={
-    email: '',
-    id: null,
-    status: null,
-    text: '',
-    name: ''
-    // image_path: "https://uxcandy.com/~shapoval/test-task-backend/upload/user_images/1107fb5b/1524207101_avatarDoter.jpg"
+const GET_TASK = 'GET_TASK'
+const ADD_USER_TASK = 'ADD_USER_TASK'
+
+const initialState = {
+    message: [
+        // {
+        //     name: '',
+        //     email: '',
+        //     id: null,
+        //     status: null,
+        //     text: '',
+        //
+        //     // image_path: "https://uxcandy.com/~shapoval/test-task-backend/upload/user_images/1107fb5b/1524207101_avatarDoter.jpg"
+        // }
+    ],
+    users: [
+        {
+            id: null,
+            name: '',
+            email: '',
+            task: ''
+        }
+    ]
 }
 
-const addTaskReducer = (state = initialState, action) => {
+const taskReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case ADD_TASK:
+        case GET_TASK:
 
             return {
-
                 ...state,
-                payload:[...action.payload]
-
-
+                ...action.payload
             }
 
+        case ADD_USER_TASK:
+
+            return {
+                ...state,
+                users:[...action.payload]
+            }
 
         default:
             return state
     }
 }
-export const addTask =(id,status,email, name,text) => ({type: ADD_TASK, payload:{id,status,email, name,text}});
+export const getTask = (message) => ({type: GET_TASK, payload: message});
+export const addUserTask = (id, name, email, task) => ({type: ADD_USER_TASK, payload: {id, name, email, task}})
 
-
-export const addTaskThunkCreator = () => async (dispatch) => {
+export const getTaskThunkCreator = () => async (dispatch) => {
 
     const data = await fetch('https://uxcandy.com/~shapoval/test-task-backend/?developer=Name')
-        .then(response=>response.json() )
-        .then(data=> data)
+        .then(response => response.json())
+        .then(data => data)
     // .then(data => {         // return - промисы - для app_reducer
     console.log('THUNK ', data)
-        dispatch(addTask(data));
+    dispatch(getTask(data));
+}
+
+export const  addTaskThunk = (id, name, email, task) => async (dispatch) => {
+
+    const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
+    const data = { id, name, email, task }
+
+   try {
+       const response = await fetch(url,{
+           method: 'POST',
+           body: JSON.stringify(data),
+           headers:{
+               'Content-Type':'application/json'
+           }
+       })
+       const users = await response.json()
+       console.log('THUNK ', users)
+       dispatch(addUserTask(users));
+   } catch (error){
+        console.error('ERROR ',error)
+   }
 
 }
 
-export default addTaskReducer
+export default taskReducer

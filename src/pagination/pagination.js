@@ -14,6 +14,7 @@ export class MyPagination extends React.Component {
     };
 
     render() {
+
         return <Pagination current={this.state.current} onChange={this.onChange} total={500} />;
     }
 }

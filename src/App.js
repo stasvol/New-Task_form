@@ -1,13 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
-import Basic from "./component/tasks";
+import Basic from "./component/tasks-users";
 import HeaderTask from "./component/header";
 import React, {Suspense} from "react";
 import 'antd/dist/antd.css'
 import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom";
 import {Breadcrumb, Layout, Menu} from "antd";
 import {QQQ} from "./component/QQQ";
-import Tasks from "./component/tasks";
+import TasksUsers from "./component/tasks-users";
 
 const {Header, Content, Footer} = Layout;
 
@@ -20,7 +20,7 @@ function App() {
 
             <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
                 <div className="logo"/>
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['']}>
                     <Menu.Item key="1"><NavLink to={'/HeaderTask'}>Add task</NavLink></Menu.Item>
                     <Menu.Item key="2"><NavLink to={'/QQQ'}>QQQ</NavLink></Menu.Item>
                     <Menu.Item key="3"><NavLink to={'/ASD'}>ASD</NavLink></Menu.Item>
@@ -36,7 +36,7 @@ function App() {
                                 >>>>>>>Content>>>>>>
 
                                 <Route exact path={'/'} render={() => <Redirect to={'/HeaderTask'}/>}/>
-                                <Route path={'/HeaderTask'} render={() => <Tasks/>}/>
+                                <Route path={'/HeaderTask'} render={() => <TasksUsers/>}/>
                                 <Route path={'/QQQ'} render={() => <QQQ/>}/>
                                 <Route path={'/ASD'} render={() => <div>ASD</div>}/>
                                 {/*<HeaderTask/>*/}

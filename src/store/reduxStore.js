@@ -1,9 +1,9 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
-import addTaskReducer from "./addTask-reducer";
+import taskReducer from "./addTask-reducer";
 
 const rootReducer = combineReducers({
-    addTask:addTaskReducer
+    addTask:taskReducer
 })
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace: true, traceLimit: 25}) || compose;

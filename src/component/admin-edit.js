@@ -3,7 +3,7 @@ import {Redirect} from "react-router-dom";
 import {useHistory,useLocation} from 'react-router-dom'
 
 
-const AddTask = () => {
+const AdminEdit = () => {
 
 const [state, setState ] = useState(()=>{
     return  {name: '', password: ''}
@@ -51,4 +51,4 @@ let location = useLocation()
     
 }
 
-export default AddTask
+export default AdminEdit

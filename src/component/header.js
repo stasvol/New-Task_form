@@ -2,7 +2,7 @@
 // import { Layout, Menu, Breadcrumb } from 'antd';
 // import {BrowserRouter, NavLink} from "react-router-dom"
 // import Basic from "./tasks";
-// import Tasks from "./tasks";
+// import TasksUsers from "./tasks";
 // const { Header, Content, Footer } = Layout;
 //
 // const HeaderTask =(props) => {
@@ -25,7 +25,7 @@
 //             {/*</Breadcrumb>*/}
 //             <div className="site-layout-background" style={{padding: 24, minHeight: 380}}>
 //                 Content
-//                 <Tasks />
+//                 <TasksUsers />
 //             </div>
 //         </Content>
 //         <Footer style={{textAlign: 'center'}}>App ©2021 Created by Artur</Footer>
