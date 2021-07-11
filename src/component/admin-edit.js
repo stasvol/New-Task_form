@@ -30,7 +30,7 @@ let location = useLocation()
   }
 
   const handlerInput =()=> {
-      debugger
+
      if (state.name === 'admin' && +state.password === 123 ) {
          history.push('/QQQ')
          // <Redirect to={'/QQQ'}/>

@@ -61,7 +61,7 @@ export const getTaskThunkCreator = () => async (dispatch) => {
 }
 
 export const  addTaskThunk = (id, name, email, task) => async (dispatch) => {
-
+    debugger
     const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
     const data = { id, name, email, task }
 
@@ -74,8 +74,9 @@ export const  addTaskThunk = (id, name, email, task) => async (dispatch) => {
            }
        })
        const users = await response.json()
-       console.log('THUNK ', users)
+
        dispatch(addUserTask(users));
+       console.log('THUNK ', users)
    } catch (error){
         console.error('ERROR ',error)
    }

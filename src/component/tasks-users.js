@@ -71,7 +71,7 @@
 // export default Basic;
 import React, {useEffect, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
-import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
+import {addTaskThunk, addUserTask, getTask, getTaskThunkCreator} from "../store/addTask-reducer";
 import {MyPagination} from "../pagination/pagination";
 import AdminEdit from "./admin-edit";
 import {Redirect} from "react-router-dom";
@@ -94,10 +94,34 @@ const TasksUsers = (props) => {
     // const dataFormTask =data=> {
     //     setData(data)
     // }
+    useEffect(()=>{
+        props.getTaskThunkCreator()
+    },[])
+
+    const submit = (values, {setSubmitting}) => {
+
+         const users ={
+             id: values.name-values.email,
+             name:values.name,
+             email:values.email,
+             task:values.task
+         }
+
+        props.addTaskThunk(users)
+
+        setSubmitting(false);
+    }
+
+    // const onHandlerClick = (values) => {
+    //   debugger
+    //     props.addTaskThunk(values)
+    //      alert('AAAAAAA')
+    // }
 
   return <div>
     <Formik
-        initialValues={{name: '',email: '', password: ''}}
+        enableReinitialize={true}
+        initialValues={{ name: '', email: '',task:'',id:'', password: ''}}
         validate={values => {
 
             const errors = {};
@@ -122,30 +146,43 @@ const TasksUsers = (props) => {
             }
             return errors;
         }}
-        onSubmit={(values, {setSubmitting}) => {
-            setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-            }, 400);
-
-        }}
+         onSubmit={submit}
+        // onSubmit={(values, {setSubmitting}) => {
+        //     const users ={
+        //         id: values.id,
+        //         name:values.name,
+        //         email:values.email,
+        //         task:values.task
+        //     }
+        //     // const filter:filterType = {
+        //     //     term: values.term,
+        //     //     friend: values.friend === 'null' ? null : values.friend === 'true' ? true : false
+        //     // }
+        //     props.addTaskThunk(users)
+        //     // props.onFilterChange(filter)
+        //     setSubmitting(false);
+        //     // setTimeout(() => {
+        //     //     alert(JSON.stringify(values, null, 2));
+        //     //     setSubmitting(false);
+        //     // }, 400);
+        // }}
     >
         {({isSubmitting}) => (
             <Form>
                 <label htmlFor={'Name'}>Name</label>
-                <Field type="text" name="name" placeholder={'name'} />
+                <Field type="text" name="name" placeholder={'name'}  />
                 <ErrorMessage name="name" component="div" className={'error'}/>
 
                 <label htmlFor={'Email'}>Email</label>
-                <Field type="email" name="email" placeholder={'email'}/>
-                <ErrorMessage name="email" component="div" className={'error'}/>
+                <Field type="email" name="email" placeholder={'email'} />
+                <ErrorMessage name="email" component="div" className={'error'} />
 
                 {/*<label htmlFor={'Password'}>Password</label>*/}
                 {/*<Field type="password" name="password" placeholder={'password'}/>*/}
                 {/*<ErrorMessage name="password" component="div" className={'error'}/>*/}
 
                 <label htmlFor={'Task'}>Task</label>
-                <Field type="textarea" component={'textarea'} name="textarea" placeholder={'task'}/>
+                <Field type="textarea" component={'textarea'} name="task" placeholder={'task'}/>
                 <div>
                     <button  type="submit" disabled={isSubmitting}>Submit</button>
                 </div>
@@ -170,5 +207,16 @@ const mapStateToProps =(state) => {
         users:state.addTask.users
     }
 }
+// const mapDispatchToProps = (dispatch) => {
+//     return{
+//         getMessage:(data)=>{
+//             dispatch(getTask(data))
+//         },
+//         addUsers:(users)=>{
+//             dispatch(addUserTask(users))
+//         }
+//     }
+//
+// }
 
-export default connect(mapStateToProps,getTaskThunkCreator,addTaskThunk)(TasksUsers) ;
+export default connect(mapStateToProps,{getTaskThunkCreator,addTaskThunk})(TasksUsers) ;
