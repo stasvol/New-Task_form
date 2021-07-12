@@ -18,9 +18,10 @@ const initialState = {
     users: [
         {
             id: null,
-            name: '',
+            username: '',
             email: '',
-            task: ''
+            text: '',
+            status: ''
         }
     ]
 }
@@ -37,7 +38,6 @@ const taskReducer = (state = initialState, action) => {
             }
 
         case ADD_USER_TASK:
-
             return {
                 ...state,
                 users:[...action.payload]
@@ -48,7 +48,7 @@ const taskReducer = (state = initialState, action) => {
     }
 }
 export const getTask = (message) => ({type: GET_TASK, payload: message});
-export const addUserTask = (id, name, email, task) => ({type: ADD_USER_TASK, payload: {id, name, email, task}})
+export const addUserTask = (id, username, email, text,status) => ({type: ADD_USER_TASK, payload: {id, username, email, text,status}})
 
 export const getTaskThunkCreator = () => async (dispatch) => {
 
@@ -60,10 +60,10 @@ export const getTaskThunkCreator = () => async (dispatch) => {
     dispatch(getTask(data));
 }
 
-export const  addTaskThunk = (id, name, email, task) => async (dispatch) => {
+export const  addTaskThunk = (id, username, email, text,status) => async (dispatch) => {
     debugger
     const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
-    const data = { id, name, email, task }
+    const data = { id, username, email, text, status }
 
    try {
        const response = await fetch(url,{

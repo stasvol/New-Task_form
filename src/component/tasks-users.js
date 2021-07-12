@@ -101,15 +101,14 @@ const TasksUsers = (props) => {
     const submit = (values, {setSubmitting}) => {
 
          const users ={
-             id: values.name-values.email,
-             name:values.name,
+             status: values.status,
+             id: values.username-values.email,
+             username:values.username,
              email:values.email,
-             task:values.task
+             text:values.text,
          }
-
-        props.addTaskThunk(users)
-
-        setSubmitting(false);
+         props.addTaskThunk(users)
+         setSubmitting(false);
     }
 
     // const onHandlerClick = (values) => {
@@ -121,14 +120,14 @@ const TasksUsers = (props) => {
   return <div>
     <Formik
         enableReinitialize={true}
-        initialValues={{ name: '', email: '',task:'',id:'', password: ''}}
+        initialValues={{ username: '', email: '',text:'',id:'',status: '', password: ''}}
         validate={values => {
 
             const errors = {};
-            if (!values.name || values.name.length < 3) {
-                errors.name = 'Required, Enter your name-min length > 3 symbol';
+            if (!values.username || values.username.length < 3) {
+                errors.username = 'Required, Enter your name-min length > 3 symbol';
             } else if(
-                !/^[A-Z]/i.test(values.name)
+                !/^[A-Z]/i.test(values.username)
             ) {
             } if (!values.email) {
                 errors.email = 'Required, Enter your email';
@@ -137,15 +136,24 @@ const TasksUsers = (props) => {
             ) {
                 errors.email = 'Invalid email address';
             }
+            if (!values.text ) {
+                errors.text = 'Required, Add text !';
+            } else if (
+                !/^[A-Z 0-9]/i.test(values.text)
+            ) {
+                errors.text = 'Invalid text';
+            }
             if (!values.password || values.password.length < 3) {
-                errors.password = 'Required , min length > 3 symbol';
+                errors.password = 'Required, min length > 3 symbol';
             } else if (
                 !/^[A-Z 0-9]/i.test(values.password)
             ) {
                 errors.password = 'Invalid password';
             }
+
             return errors;
         }}
+
          onSubmit={submit}
         // onSubmit={(values, {setSubmitting}) => {
         //     const users ={
@@ -167,12 +175,17 @@ const TasksUsers = (props) => {
         //     // }, 400);
         // }}
     >
-        {({isSubmitting}) => (
-            <Form>
-                <label htmlFor={'Name'}>Name</label>
-                <Field type="text" name="name" placeholder={'name'}  />
-                <ErrorMessage name="name" component="div" className={'error'}/>
-
+        {({ values,errors,touched,
+              handleChange,handleBlur,
+              handleSubmit,isValid,dirty,isSubmitting}) => (
+            <Form onSubmit={props.handleSubmit}>
+                <label htmlFor={'Username'}>Username</label>
+                <Field type="text" name="username" placeholder={'name'}
+                       onChange={handleChange}
+                       onBlur={handleBlur}
+                       values={values.username}/>
+                <ErrorMessage name="username" component="div" className={'error'}/>
+                {/*{touched.username && errors.username && <p className={'error'}>{errors.username}</p>}*/}
                 <label htmlFor={'Email'}>Email</label>
                 <Field type="email" name="email" placeholder={'email'} />
                 <ErrorMessage name="email" component="div" className={'error'} />
@@ -181,10 +194,11 @@ const TasksUsers = (props) => {
                 {/*<Field type="password" name="password" placeholder={'password'}/>*/}
                 {/*<ErrorMessage name="password" component="div" className={'error'}/>*/}
 
-                <label htmlFor={'Task'}>Task</label>
-                <Field type="textarea" component={'textarea'} name="task" placeholder={'task'}/>
+                <label htmlFor={'Text'}>Text</label>
+                <Field type="textarea" component={'textarea'} name="text" placeholder={'task'}/>
+                <ErrorMessage name="text" component="div" className={'error'} />
                 <div>
-                    <button  type="submit" disabled={isSubmitting}>Submit</button>
+                    <button onClick={handleSubmit}  type="submit" disabled={!isValid && !dirty && !isSubmitting}>Submit</button>
                 </div>
 
             </Form>
@@ -192,7 +206,9 @@ const TasksUsers = (props) => {
         )}
     </Formik>
       { props.message?.tasks?.length &&
-      props.message.tasks.map(el=> <div key={el.id}>Name:{el.username} <br/>Email: {el.email}<br/>Text: {el.text}<br/>Status: {el.status}<br/> <img src={el.image_path}/></div>)
+      props.message.tasks.map(el=> <div style={{display:"flex",  border: '1px solid black',padding: 10,  margin:10, width:400}}
+                                        key={el.id}>Name:{el.username}  <br/> Email: {el.email} <br/>Text: {el.text} <br/>Status: {el.status}
+          <img style={{marginLeft:50}} width={100} src={el.image_path}/></div>)
       }
       <MyPagination/>
       <AdminEdit/>

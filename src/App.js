@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Basic from "./component/tasks-users";
-import HeaderTask from "./component/header";
+import HeaderTask, {BasicExample} from "./component/header";
 import React, {Suspense} from "react";
 import 'antd/dist/antd.css'
 import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom";
@@ -45,6 +45,7 @@ function App() {
                     </Suspense>
                 </Content>
                 <Footer style={{textAlign: 'center'}}>App ©2021 Created by Artur</Footer>
+                {/*<BasicExample/>*/}
             </Layout>
         </BrowserRouter>
 
