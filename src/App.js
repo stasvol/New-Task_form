@@ -1,14 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import Basic from "./component/tasks-users";
-import HeaderTask, {BasicExample} from "./component/header";
+// import HeaderTask, {BasicExample} from "./component/header";
 import React, {Suspense} from "react";
 import 'antd/dist/antd.css'
 import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom";
 import {Breadcrumb, Layout, Menu} from "antd";
 import {QQQ} from "./component/QQQ";
 import TasksUsers from "./component/tasks-users";
-
+import BasicExample from "./component/header"
 const {Header, Content, Footer} = Layout;
 
 
@@ -43,9 +43,10 @@ function App() {
                             </div>
                         </Switch>
                     </Suspense>
+                    <BasicExample/>
                 </Content>
                 <Footer style={{textAlign: 'center'}}>App ©2021 Created by Artur</Footer>
-                {/*<BasicExample/>*/}
+
             </Layout>
         </BrowserRouter>
 
