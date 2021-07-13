@@ -57,7 +57,7 @@ return    <div>
             onSubmit={(values, actions) => {
 
                 const users ={
-                    id: values.name-values.email,
+                    id: Math.random()*10,
                     name:values.name,
                     email:values.email,
                     text:values.text,
@@ -109,7 +109,7 @@ return    <div>
                     />
                     {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}
                     <div>
-                    <button type="submit">Submit</button>
+                    <button  type="submit">Submit</button>
                     </div>
                 </form>
             )}
@@ -126,7 +126,7 @@ return    <div>
 }
 
 const mapStateToProps =(state) => {
-
+debugger
     return {
         message:state.addTask.message,
         users:state.addTask.users
