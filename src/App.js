@@ -8,7 +8,8 @@ import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom"
 import {Breadcrumb, Layout, Menu} from "antd";
 import {QQQ} from "./component/QQQ";
 import TasksUsers from "./component/tasks-users";
-import BasicExample from "./component/header"
+import BasicExample from "./component/add_user_task"
+import AddUsersTasks from "./component/add_user_task";
 const {Header, Content, Footer} = Layout;
 
 
@@ -21,7 +22,7 @@ function App() {
             <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
                 <div className="logo"/>
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['']}>
-                    <Menu.Item key="1"><NavLink to={'/HeaderTask'}>Add task</NavLink></Menu.Item>
+                    <Menu.Item key="1"><NavLink to={'/Header'}>Add task</NavLink></Menu.Item>
                     <Menu.Item key="2"><NavLink to={'/QQQ'}>QQQ</NavLink></Menu.Item>
                     <Menu.Item key="3"><NavLink to={'/ASD'}>ASD</NavLink></Menu.Item>
 
@@ -35,15 +36,15 @@ function App() {
                             <div className="site-layout-background" style={{padding: 24, minHeight: 380}}>
                                 >>>>>>>Content>>>>>>
 
-                                <Route exact path={'/'} render={() => <Redirect to={'/HeaderTask'}/>}/>
-                                <Route path={'/HeaderTask'} render={() => <TasksUsers/>}/>
+                                <Route exact path={'/'} render={() => <Redirect to={'/Header'}/>}/>
+                                <Route path={'/Header'} render={() => <AddUsersTasks/>}/>
                                 <Route path={'/QQQ'} render={() => <QQQ/>}/>
                                 <Route path={'/ASD'} render={() => <div>ASD</div>}/>
                                 {/*<HeaderTask/>*/}
                             </div>
                         </Switch>
                     </Suspense>
-                    <BasicExample/>
+                    {/*<BasicExample/>*/}
                 </Content>
                 <Footer style={{textAlign: 'center'}}>App ©2021 Created by Artur</Footer>
 

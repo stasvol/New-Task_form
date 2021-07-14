@@ -42,14 +42,14 @@ import AdminEdit from "./admin-edit";
 import {connect} from "react-redux";
 import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
 
- const BasicExample = (props) => {
+ const AddUsersTasks = (props) => {
 
     useEffect(()=>{
         props.getTaskThunkCreator()
     },[])
 
 return    <div>
-        <h1>My Form</h1>
+        <h1>Add task</h1>
         <Formik
             initialValues={{name: '', email: '', text: ''}}
 
@@ -86,6 +86,7 @@ return    <div>
                         onBlur={handleBlur}
                         value={values.name}
                         name="name"
+                           placeholder={'name'}
                     />
                     { touched.name && errors.name && <div className={'error'} id="feedback">{errors.name}</div>}
                     {/*{touched.name && errors.name && <p className={'error'}>{errors.name}</p>}*/}
@@ -96,6 +97,7 @@ return    <div>
                            onBlur={handleBlur}
                            value={values.email}
                            name="email"
+                           placeholder={'email'}
                     />
                     {touched.email && errors.email && <div className={'error'} id="feedback">{errors.email}</div>}
                     <label htmlFor={'Text'}>Text</label>
@@ -106,6 +108,7 @@ return    <div>
                            onBlur={handleBlur}
                            value={values.text}
                            name="text"
+                            placeholder={'add task'}
                     />
                     {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}
                     <div>
@@ -117,19 +120,20 @@ return    <div>
 
     {
         props.message?.tasks?.length &&
-        props.message.tasks.map(el=> <div style={{display:"flex",  border: '1px solid black',padding: 10,  margin:10, width:400}}
-                                          key={el.id}>Name:{el.username}  <br/> Email: {el.email} <br/>Text: {el.text} <br/>Status: {el.status}
-            <img style={{marginLeft:50}} width={100} src={el.image_path}/></div>)
+        props.message.tasks.map(el=> <div style={{  border: '1px solid black',padding: 10,  margin:10, maxWidth:250}}
+                                          key={el.id}><div><b>Name:</b>{el.username} </div> <div><b>Email: </b>{el.email} </div> <div><b>Text: </b>{el.text}</div> <div><b>Status:</b> {el.status}</div>
+                     {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
+        </div>)
     }
     </div>
 
 }
 
 const mapStateToProps =(state) => {
-debugger
+   debugger
     return {
-        message:state.addTask.message,
-        users:state.addTask.users
+        message:state.task.message,
+        users:state.task.users
     }
 }
 // const mapDispatchToProps = (dispatch) => {
@@ -144,4 +148,4 @@ debugger
 //
 // }
 
-export default connect(mapStateToProps,{getTaskThunkCreator,addTaskThunk})(BasicExample) ;
+export default connect(mapStateToProps,{getTaskThunkCreator,addTaskThunk})(AddUsersTasks) ;

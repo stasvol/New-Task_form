@@ -119,41 +119,41 @@ const TasksUsers = (props) => {
 
   return <div>
     <Formik
-        // enableReinitialize={true}
+        enableReinitialize={true}
         initialValues={{ name: '', email: '',text:'',id:'', password: ''}}
         // validateOnBlur={}
-        // validateOnBlur validate={values => {
-        //
-        //     const errors = {};
-        //     if (!values.name || values.name.length < 3) {
-        //         errors.name = 'Required, Enter your name-min length > 3 symbol';
-        //     } else if(
-        //         !/^[A-Z]/i.test(values.name)
-        //     ) {
-        //     } if (!values.email) {
-        //         errors.email = 'Required, Enter your email';
-        //     } else if (
-        //         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        //     ) {
-        //         errors.email = 'Invalid email address';
-        //     }
-        //     if (!values.text ) {
-        //         errors.text = 'Required, Add text !';
-        //     } else if (
-        //         !/^[A-Z 0-9]/i.test(values.text)
-        //     ) {
-        //         errors.text = 'Invalid text';
-        //     }
-        //     if (!values.password || values.password.length < 3) {
-        //         errors.password = 'Required, min length > 3 symbol';
-        //     } else if (
-        //         !/^[A-Z 0-9]/i.test(values.password)
-        //     ) {
-        //         errors.password = 'Invalid password';
-        //     }
-        //
-        //     return errors;
-        // }}
+        validateOnBlur validate={values => {
+
+            const errors = {};
+            if (!values.name || values.name.length < 3) {
+                errors.name = 'Required, Enter your name-min length > 3 symbol';
+            } else if(
+                !/^[A-Z]/i.test(values.name)
+            ) {
+            } if (!values.email) {
+                errors.email = 'Required, Enter your email';
+            } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+                errors.email = 'Invalid email address';
+            }
+            if (!values.text ) {
+                errors.text = 'Required, Add text !';
+            } else if (
+                !/^[A-Z 0-9]/i.test(values.text)
+            ) {
+                errors.text = 'Invalid text';
+            }
+            if (!values.password || values.password.length < 3) {
+                errors.password = 'Required, min length > 3 symbol';
+            } else if (
+                !/^[A-Z 0-9]/i.test(values.password)
+            ) {
+                errors.password = 'Invalid password';
+            }
+
+            return errors;
+        }}
 
          onSubmit={submit}
         // onSubmit={(values, {setSubmitting}) => {
@@ -213,11 +213,11 @@ const TasksUsers = (props) => {
 
         )}
     </Formik>
-      {/*{ props.message?.tasks?.length &&*/}
-      {/*props.message.tasks.map(el=> <div style={{display:"flex",  border: '1px solid black',padding: 10,  margin:10, width:400}}*/}
-      {/*                                  key={el.id}>Name:{el.username}  <br/> Email: {el.email} <br/>Text: {el.text} <br/>Status: {el.status}*/}
-      {/*    <img style={{marginLeft:50}} width={100} src={el.image_path}/></div>)*/}
-      {/*}*/}
+      { props.message?.tasks?.length &&
+      props.message.tasks.map(el=> <div style={{display:"flex",  border: '1px solid black',padding: 10,  margin:10, width:400}}
+                                        key={el.id}>Name:{el.username}  <br/> Email: {el.email} <br/>Text: {el.text} <br/>Status: {el.status}
+          <img style={{marginLeft:50}} width={100} src={el.image_path}/></div>)
+      }
       <MyPagination/>
       <AdminEdit/>
   </div>
@@ -227,8 +227,8 @@ const TasksUsers = (props) => {
 const mapStateToProps =(state) => {
 
     return {
-        message:state.addTask.message,
-        users:state.addTask.users
+        message:state.task.message,
+        users:state.task.users
     }
 }
 // const mapDispatchToProps = (dispatch) => {
