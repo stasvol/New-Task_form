@@ -218,6 +218,7 @@ const TasksUsers = (props) => {
                                         key={el.id}>Name:{el.username}  <br/> Email: {el.email} <br/>Text: {el.text} <br/>Status: {el.status}
           <img style={{marginLeft:50}} width={100} src={el.image_path}/></div>)
       }
+
       <MyPagination/>
       <AdminEdit/>
   </div>

@@ -39,10 +39,12 @@ import React, {useEffect} from 'react';
 import { Formik,Field } from 'formik';
 import {MyPagination} from "../pagination/pagination";
 import AdminEdit from "./admin-edit";
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
 
  const AddUsersTasks = (props) => {
+
+   const users = useSelector(state => state.task.users)
 
     useEffect(()=>{
         props.getTaskThunkCreator()
@@ -51,14 +53,14 @@ import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
 return    <div>
         <h1>Add task</h1>
         <Formik
-            initialValues={{name: '', email: '', text: ''}}
+            initialValues={{username: '', email: '', text: ''}}
 
 
             onSubmit={(values, actions) => {
 
                 const users ={
-                    id: Math.random()*10,
-                    name:values.name,
+                    // id: Math.random()*10,
+                    username:values.username,
                     email:values.email,
                     text:values.text,
                 }
@@ -79,13 +81,13 @@ return    <div>
               }) => (
                 <form onSubmit={handleSubmit}>
 
-                    <label htmlFor={'name'}>Name</label>
-                    <Field required ={'name'}
+                    <label htmlFor={'username'}>Name</label>
+                    <Field required ={'username'}
                         type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.name}
-                        name="name"
+                        value={values.username}
+                        name="username"
                            placeholder={'name'}
                     />
                     { touched.name && errors.name && <div className={'error'} id="feedback">{errors.name}</div>}
@@ -112,7 +114,7 @@ return    <div>
                     />
                     {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}
                     <div>
-                    <button  type="submit">Submit</button>
+                    <button onClick={()=> alert(JSON.stringify(users.message))}  type="submit">Submit</button>
                     </div>
                 </form>
             )}
@@ -125,6 +127,13 @@ return    <div>
                      {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
         </div>)
     }
+    { users.message?.length &&
+       users.message.map(el=> <div style={{  border: '1px solid black',padding: 10,  margin:10, maxWidth:250}}
+                           key={el.id}><div><b>Name:</b>{el.username} </div> <div><b>Email: </b>{el.email} </div> <div><b>Text: </b>{el.text}</div> <div><b>Status:</b> {el.status}</div>
+           {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
+       </div>)
+    }
+
     </div>
 
 }

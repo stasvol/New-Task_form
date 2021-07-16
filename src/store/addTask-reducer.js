@@ -17,8 +17,8 @@ const initialState = {
     ],
     users: [
         {
-            id: null,
-            name: '',
+            // id: null,
+            username: '',
             email: '',
             text: '',
 
@@ -34,14 +34,14 @@ const taskReducer = (state = initialState, action) => {
          debugger
             return {
                 ...state,
-                ...action.payload
+               ...action.payload
             }
 
         case ADD_USER_TASK:
             debugger
             return {
                 ...state,
-               users:[...action.payload]
+                users:action.payload
             }
 
         default:
@@ -64,57 +64,73 @@ export const getTaskThunkCreator = () => async (dispatch) => {
 
 export const  addTaskThunk = (users) => async (dispatch) => {
     debugger
-    // let formData = new FormData();
-    // // for(const name in users) {
-    // //     formData.append(name, users[name]);
-    // // }
-    // // for(const email in users) {
-    // //     formData.append(email, users[email]);
-    // // }
-    // // for(const text in users) {
-    // //     formData.append(text, users[text]);
-    // // }
-    //
-    // formData.append("id", users.id);
-    // formData.append("name", users.name);
-    // formData.append("email", users.email);
-    // formData.append("text", users.text);
-    //
-    // try {
-    //     const response = await fetch('https://uxcandy.com/~shapoval/test-task-backend/?developer=Name', {
-    //         credentials: 'same-origin',
-    //         method: 'POST',
-    //         body: formData
-    //     });
-    //     const users = await response.json();
-    //     dispatch(addUserTask(users));
-    //     console.log('THUNK_USER ', users)
-    //
-    //
-    // } catch (error) {
-    //     console.error('ERROR:', error);
+  //   let payload ={
+  //        username: users.username,
+  //           email: users.email,
+  //           text: users.text
+  //   }
+  // let formData = new FormData()
+  //   formData.append('json', JSON.stringify(payload))
+  //   fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name',
+  //       {
+  //           method: 'POST',
+  //           body:formData
+  //       })
+  //       .then(function (res){ return res.json()})
+  //       .then(function (formData){dispatch(addUserTask(formData))})
+  //       .then(function (formData){ alert(JSON.stringify(formData))})
+
+    let formData = new FormData();
+    // for(const name in users) {
+    //     formData.append(name, users[name]);
     // }
-    const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
-    const data = { users }
+    // for(const email in users) {
+    //     formData.append(email, users[email]);
+    // }
+    // for(const text in users) {
+    //     formData.append(text, users[text]);
+    // }
 
-   try {
-       const response = await fetch(url,{
-           // credentials:'same-origin',
-           method: 'POST',
-           body: JSON.stringify(data),
-           headers:{
-               'Content-Type':'application/json'
-           }
-       })
-       const users = await response.json()
+    // formData.append("id", users.id);
+    formData.append("username", users.username);
+    formData.append("email", users.email);
+    formData.append("text", users.text);
 
-       console.log('THUNK_USER ', users)
-       dispatch(getTask(users));
-       dispatch(addUserTask(users));
+    try {
+        const response = await fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name', {
+            credentials: 'same-origin',
+            method: 'POST',
+            body: formData
+        });
+        const users = await response.json();
+        dispatch(addUserTask(users));
+        console.log('THUNK_USER ', users)
 
-   } catch (error){
-        console.error('ERROR ',error)
-   }
+
+    } catch (error) {
+        console.error('ERROR:', error);
+    }
+
+//     const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
+//     const data = { users }
+//
+//    try {
+//        const response = await fetch(url,{
+//            // credentials:'same-origin',
+//            method: 'POST',
+//            body: JSON.stringify(data),
+//            headers:{
+//                'Content-Type':'application/json'
+//            }
+//        })
+//        const users = await response.json()
+//
+//        console.log('THUNK_USER ', users)
+//        dispatch(addUserTask(users));
+//
+//    } catch (error){
+//         console.error('ERROR ',error)
+//    }
 }
 
 export default taskReducer
