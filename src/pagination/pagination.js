@@ -7,6 +7,7 @@ export class MyPagination extends React.Component {
     };
 
     onChange = page => {
+
         console.log(page);
         this.setState({
             current: page,

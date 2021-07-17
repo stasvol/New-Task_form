@@ -42,7 +42,6 @@ import AdminEdit from "./admin-edit";
 import {connect, useSelector} from "react-redux";
 import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
 
-
 const AddUsersTasks = (props) => {
 
 
@@ -53,7 +52,7 @@ const AddUsersTasks = (props) => {
     }, [])
 
     const handleClick = () => {
-        console.log(JSON.stringify(props.users.message))
+        console.log(JSON.stringify(users.message))
 
     }
 
@@ -71,6 +70,7 @@ const AddUsersTasks = (props) => {
                     email: values.email,
                     text: values.text,
                 }
+
                 props.addTaskThunk(users)
                 actions.setSubmitting(false);
                 console.log("USER ", users)
@@ -164,14 +164,14 @@ const AddUsersTasks = (props) => {
         {/*}*/}
         {users.message && Object.entries(users.message)
             .map(value=> {
-               return  <div> {value} </div>
+                return  <div key={value.id}> <i key={value.id - value}>{value.join(':  ')}</i> </div>
             })
         }
         {/*{ props.users.message &&*/}
         {/*    Array.from(props.users.message, el=> el)*/}
         {/*}*/}
 
-
+        <MyPagination/>
     </div>
 
 }
@@ -183,7 +183,8 @@ const mapStateToProps = (state) => {
 
     return {
         message: state.task.message,
-        users: state.task.users
+        users: state.task.users,
+        currentPage: state.task.currentPage
     }
 
 }

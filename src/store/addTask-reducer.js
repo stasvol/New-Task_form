@@ -23,7 +23,8 @@ const initialState = {
             text: '',
 
         }
-    ]
+    ],
+    currentPage:1
 }
 
 const taskReducer = (state = initialState, action) => {
@@ -41,19 +42,19 @@ const taskReducer = (state = initialState, action) => {
             debugger
             return {
                 ...state,
-                users: action.payload
+                users:{...action.payload}
             }
 
         default:
             return state
     }
 }
-export const getTask = (message) => ({type: GET_TASK, payload: message});
+export const getTask = (message,currentPage) => ({type: GET_TASK, payload: message,currentPage});
 export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users })
 
-export const getTaskThunkCreator = () => async (dispatch) => {
+export const getTaskThunkCreator = (currentPage) => async (dispatch) => {
 
-    const data = await fetch('https://uxcandy.com/~shapoval/test-task-backend/?developer=Name')
+    const data = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/?developer=Name&page=${currentPage}`)
         .then(response => response.json())
         .then(data => data)
     // .then(data => {         // return - промисы - для app_reducer
@@ -100,6 +101,7 @@ export const  addTaskThunk = (users) => async (dispatch) => {
         const response = await fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name', {
             // credentials: 'same-origin',
             method: 'POST',
+            mimeType: "multipart/form-data",
             body: formData
         });
         const users = await response.json();
