@@ -35,22 +35,29 @@
 // }
 // export default HeaderTask
 
-import React, {useEffect} from 'react';
-import { Formik,Field } from 'formik';
+import React, {useEffect, useState} from 'react';
+import {Formik, Field} from 'formik';
 import {MyPagination} from "../pagination/pagination";
 import AdminEdit from "./admin-edit";
 import {connect, useSelector} from "react-redux";
 import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
 
- const AddUsersTasks = (props) => {
 
-   const users = useSelector(state => state.task.users)
+const AddUsersTasks = (props) => {
 
-    useEffect(()=>{
+
+    const users = useSelector(state => state.task.users)
+
+    useEffect(() => {
         props.getTaskThunkCreator()
-    },[])
+    }, [])
 
-return    <div>
+    const handleClick = () => {
+        console.log(JSON.stringify(props.users.message))
+
+    }
+
+    return <div>
         <h1>Add task</h1>
         <Formik
             initialValues={{username: '', email: '', text: ''}}
@@ -58,11 +65,11 @@ return    <div>
 
             onSubmit={(values, actions) => {
 
-                const users ={
+                const users = {
                     // id: Math.random()*10,
-                    username:values.username,
-                    email:values.email,
-                    text:values.text,
+                    username: values.username,
+                    email: values.email,
+                    text: values.text,
                 }
                 props.addTaskThunk(users)
                 actions.setSubmitting(false);
@@ -82,15 +89,15 @@ return    <div>
                 <form onSubmit={handleSubmit}>
 
                     <label htmlFor={'username'}>Name</label>
-                    <Field required ={'username'}
-                        type="text"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.username}
-                        name="username"
+                    <Field required={'username'}
+                           type="text"
+                           onChange={handleChange}
+                           onBlur={handleBlur}
+                           value={values.username}
+                           name="username"
                            placeholder={'name'}
                     />
-                    { touched.name && errors.name && <div className={'error'} id="feedback">{errors.name}</div>}
+                    {touched.name && errors.name && <div className={'error'} id="feedback">{errors.name}</div>}
                     {/*{touched.name && errors.name && <p className={'error'}>{errors.name}</p>}*/}
                     <label htmlFor={'Email'}>Email</label>
                     <Field required={'email'}
@@ -103,47 +110,82 @@ return    <div>
                     />
                     {touched.email && errors.email && <div className={'error'} id="feedback">{errors.email}</div>}
                     <label htmlFor={'Text'}>Text</label>
-                    <Field  required={'text'}
+                    <Field required={'text'}
                            component={'textarea'}
                            type="textarea"
                            onChange={handleChange}
                            onBlur={handleBlur}
                            value={values.text}
                            name="text"
-                            placeholder={'add task'}
+                           placeholder={'add task'}
                     />
                     {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}
                     <div>
-                    <button onClick={()=> alert(JSON.stringify(users.message))}  type="submit">Submit</button>
+                        <button onClick={handleClick} type="submit">Submit</button>
                     </div>
                 </form>
             )}
         </Formik>
 
-    {
-        props.message?.tasks?.length &&
-        props.message.tasks.map(el=> <div style={{  border: '1px solid black',padding: 10,  margin:10, maxWidth:250}}
-                                          key={el.id}><div><b>Name:</b>{el.username} </div> <div><b>Email: </b>{el.email} </div> <div><b>Text: </b>{el.text}</div> <div><b>Status:</b> {el.status}</div>
-                     {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
-        </div>)
-    }
-    { users.message?.length &&
-       users.message.map(el=> <div style={{  border: '1px solid black',padding: 10,  margin:10, maxWidth:250}}
-                           key={el.id}><div><b>Name:</b>{el.username} </div> <div><b>Email: </b>{el.email} </div> <div><b>Text: </b>{el.text}</div> <div><b>Status:</b> {el.status}</div>
-           {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
-       </div>)
-    }
+        {
+            props.message?.tasks?.length &&
+            props.message.tasks.map(el => <div
+                style={{border: '1px solid black', padding: 10, margin: 10, maxWidth: 250}}
+                key={el.id}>
+                <div><b>Name:</b>{el.username} </div>
+                <div><b>Email: </b>{el.email} </div>
+                <div><b>Text: </b>{el.text}</div>
+                <div><b>Status:</b> {el.status}</div>
+                {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
+            </div>)
+        }
+        {/*{props.users?.message &&*/}
+
+        {/*Object.keys(props.users.message).map(el => <div*/}
+        {/*    style={{border: '1px solid black', padding: 10, margin: 10, maxWidth: 250}}*/}
+        {/*    key={el.id}>*/}
+        {/*    <div><b>Name:</b>{el.username} </div>*/}
+        {/*    <div><b>Email: </b>{el.email} </div>*/}
+        {/*    <div><b>Text: </b>{el.text}</div>*/}
+        {/*    <div><b>Status:</b> {el.status}</div>*/}
+
+        {/*    /!*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*!/*/}
+        {/*</div>) &&*/}
+        {/*console.log('MAP  ', props.users)*/}
+        {/*}*/}
+        {/*{props.users.message && Object.keys(props.users.message)*/}
+        {/*     && Object.values(props.users.message)*/}
+        {/*}*/}
+        {/*{props.users.message &&*/}
+        {/*Object.getOwnPropertyNames(props.users.message).forEach(function (val, idx, array) {*/}
+        {/*    console.log(val + ':' + props.users.message[val])*/}
+        {/*    console.log(props.users)*/}
+        {/*})*/}
+        {/*}*/}
+        {users.message && Object.entries(users.message)
+            .map(value=> {
+               return  <div> {value} </div>
+            })
+        }
+        {/*{ props.users.message &&*/}
+        {/*    Array.from(props.users.message, el=> el)*/}
+        {/*}*/}
+
 
     </div>
 
 }
 
-const mapStateToProps =(state) => {
-   debugger
+const mapStateToProps = (state) => {
+    debugger
+    console.log('1  ', state.task.message)
+    console.log('2  ', state.task.users)
+
     return {
-        message:state.task.message,
-        users:state.task.users
+        message: state.task.message,
+        users: state.task.users
     }
+
 }
 // const mapDispatchToProps = (dispatch) => {
 //     return{
@@ -157,4 +199,5 @@ const mapStateToProps =(state) => {
 //
 // }
 
-export default connect(mapStateToProps,{getTaskThunkCreator,addTaskThunk})(AddUsersTasks) ;
+
+export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk})(AddUsersTasks);

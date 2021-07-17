@@ -41,7 +41,7 @@ const taskReducer = (state = initialState, action) => {
             debugger
             return {
                 ...state,
-                users:action.payload
+                users: action.payload
             }
 
         default:
@@ -98,7 +98,7 @@ export const  addTaskThunk = (users) => async (dispatch) => {
 
     try {
         const response = await fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name', {
-            credentials: 'same-origin',
+            // credentials: 'same-origin',
             method: 'POST',
             body: formData
         });
