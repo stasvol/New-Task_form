@@ -40,7 +40,7 @@ import {Formik, Field} from 'formik';
 import {MyPagination} from "../pagination/pagination";
 import AdminEdit from "./admin-edit";
 import {connect, useSelector} from "react-redux";
-import {addTaskThunk, getTaskThunkCreator} from "../store/addTask-reducer";
+import {addTaskThunk, getCurrentPage, getTaskThunkCreator, getTotalCount} from "../store/addTask-reducer";
 
 const AddUsersTasks = (props) => {
 
@@ -48,14 +48,14 @@ const AddUsersTasks = (props) => {
     const users = useSelector(state => state.task.users)
 
     useEffect(() => {
-        props.getTaskThunkCreator()
-    }, [])
+        props.getTaskThunkCreator(props.currentPage)
+    }, [props.currentPage])
 
     const handleClick = () => {
         console.log(JSON.stringify(users.message))
 
     }
-
+    console.log("TOTAL_COUNT ",props.totalCount)
     return <div>
         <h1>Add task</h1>
         <Formik
@@ -129,7 +129,7 @@ const AddUsersTasks = (props) => {
 
         {
             props.message?.tasks?.length &&
-            props.message.tasks.map(el => <div
+            props.message.tasks.map((el,i) => <div
                 style={{border: '1px solid black', padding: 10, margin: 10, maxWidth: 250}}
                 key={el.id}>
                 <div><b>Name:</b>{el.username} </div>
@@ -164,27 +164,30 @@ const AddUsersTasks = (props) => {
         {/*}*/}
         {users.message && Object.entries(users.message)
             .map(value=> {
-                return  <div key={value.id}> <i key={value.id - value}>{value.join(':  ')}</i> </div>
+                return  <div key={value.id}> <i>{value.join(':  ')}</i> </div>
             })
         }
         {/*{ props.users.message &&*/}
         {/*    Array.from(props.users.message, el=> el)*/}
         {/*}*/}
 
-        <MyPagination/>
+        <MyPagination
+                      currentPage={props.currentPage}
+                      totalCount={props.totalCount}
+                      getCurrentPage={props.getCurrentPage}
+        />
     </div>
 
 }
 
 const mapStateToProps = (state) => {
     debugger
-    console.log('1  ', state.task.message)
-    console.log('2  ', state.task.users)
 
     return {
         message: state.task.message,
         users: state.task.users,
-        currentPage: state.task.currentPage
+        currentPage: state.task.currentPage,
+        totalCount: state.task.totalCount
     }
 
 }
@@ -201,4 +204,4 @@ const mapStateToProps = (state) => {
 // }
 
 
-export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk})(AddUsersTasks);
+export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,getCurrentPage,getTotalCount})(AddUsersTasks);

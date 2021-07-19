@@ -1,21 +1,32 @@
 import React from "react";
-import { Pagination } from 'antd';
+import {Pagination} from 'antd';
+import {getCurrentPage} from "../store/addTask-reducer";
+import {useDispatch} from "react-redux";
 
-export class MyPagination extends React.Component {
-    state = {
-        current:this.page,
+
+export const MyPagination = ({totalCount,currentPage,getCurrentPage,...props}) => {
+
+    const pageSize = 3;
+    const dispatch = useDispatch()
+
+    const onChange = page => {
+
+        console.log(getCurrentPage);
+        dispatch(getCurrentPage(page))
+
     };
 
-    onChange = page => {
+    console.log(currentPage)
 
-        console.log(page);
-        this.setState({
-            current: page,
-        });
-    };
+    return <Pagination
+        // chowSizeChanger={true}
+        // pageSizeOptions={[1,5,10,20,30,40,50,69]}
+        // defaultPageSize={3}
+        current={currentPage}
+        pageSize={pageSize}
+        total={totalCount}
+        onChange={onChange}
+        // total={500}
+    />;
 
-    render() {
-
-        return <Pagination current={this.state.current} onChange={this.onChange} total={500} />;
-    }
 }

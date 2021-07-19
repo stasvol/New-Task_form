@@ -2,6 +2,8 @@ import thunk from "redux-thunk";
 
 const GET_TASK = 'GET_TASK'
 const ADD_USER_TASK = 'ADD_USER_TASK'
+const GET_CURRENT_PAGE = 'GET_CURRENT_PAGE'
+const TOTAL_COUNT = 'TOTAL_COUNT'
 
 const initialState = {
     message: [
@@ -24,7 +26,8 @@ const initialState = {
 
         }
     ],
-    currentPage:1
+    currentPage: 1,
+    totalCount: 0
 }
 
 const taskReducer = (state = initialState, action) => {
@@ -32,25 +35,41 @@ const taskReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case GET_TASK:
-         debugger
+            debugger
             return {
                 ...state,
-               ...action.payload
+                ...action.payload,
+
             }
 
         case ADD_USER_TASK:
             debugger
             return {
                 ...state,
-                users:{...action.payload}
+                users: action.payload
+            }
+
+        case GET_CURRENT_PAGE :
+            return {
+                ...state,
+                currentPage: action.payload
+            }
+
+        case TOTAL_COUNT :
+            return {
+                ...state,
+                totalCount: action.payload
             }
 
         default:
             return state
     }
 }
-export const getTask = (message,currentPage) => ({type: GET_TASK, payload: message,currentPage});
-export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users })
+export const getTask = (message) => ({type: GET_TASK, payload: message});
+export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users})
+export const getCurrentPage = (currentPage) => ({type: GET_CURRENT_PAGE, payload: currentPage})
+export const getTotalCount = (totalCount) => ({type: TOTAL_COUNT, payload: totalCount})
+
 
 export const getTaskThunkCreator = (currentPage) => async (dispatch) => {
 
@@ -58,28 +77,29 @@ export const getTaskThunkCreator = (currentPage) => async (dispatch) => {
         .then(response => response.json())
         .then(data => data)
     // .then(data => {         // return - промисы - для app_reducer
-    console.log('THUNK ', data)
+    console.log('THUNK DATA  ', data)
     dispatch(getTask(data));
-
+    dispatch(getTotalCount(data.message.total_task_count))
+    // console.log(props.currentPage)
 }
 
-export const  addTaskThunk = (users) => async (dispatch) => {
+export const addTaskThunk = (users) => async (dispatch) => {
     debugger
-  //   let payload ={
-  //        username: users.username,
-  //           email: users.email,
-  //           text: users.text
-  //   }
-  // let formData = new FormData()
-  //   formData.append('json', JSON.stringify(payload))
-  //   fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name',
-  //       {
-  //           method: 'POST',
-  //           body:formData
-  //       })
-  //       .then(function (res){ return res.json()})
-  //       .then(function (formData){dispatch(addUserTask(formData))})
-  //       .then(function (formData){ alert(JSON.stringify(formData))})
+    //   let payload ={
+    //        username: users.username,
+    //           email: users.email,
+    //           text: users.text
+    //   }
+    // let formData = new FormData()
+    //   formData.append('json', JSON.stringify(payload))
+    //   fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name',
+    //       {
+    //           method: 'POST',
+    //           body:formData
+    //       })
+    //       .then(function (res){ return res.json()})
+    //       .then(function (formData){dispatch(addUserTask(formData))})
+    //       .then(function (formData){ alert(JSON.stringify(formData))})
 
     let formData = new FormData();
     // for(const name in users) {
