@@ -44,7 +44,7 @@ let location = useLocation()
             <form  >
                 <label htmlFor={'name'}>Name</label>
                 <input onChange={handlerForm} type={'text'} name={'name'}  value={state.name} placeholder={'admin'} required />
-                <label htmlFor={'email'}>Email</label>
+                <label htmlFor={'email'}>Password</label>
                 <input onChange={handlerForm} type={'password'} name={'password'} value={state.password} placeholder={'123'} required={'password'} />
                 <label htmlFor={'email'}> </label>
                 <button onClick={handlerInput} >Login</button>
