@@ -4,7 +4,7 @@ import {getCurrentPage} from "../store/addTask-reducer";
 import {useDispatch} from "react-redux";
 
 
-export const MyPagination = ({totalCount,currentPage,getCurrentPage,...props}) => {
+export const MyPagination = ({totalCount,currentPage,getCurrentPage}) => {
 
     const pageSize = 3;
     const dispatch = useDispatch()
@@ -16,7 +16,6 @@ export const MyPagination = ({totalCount,currentPage,getCurrentPage,...props}) =
 
     };
 
-    console.log(currentPage)
 
     return <Pagination
         // chowSizeChanger={true}

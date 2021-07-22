@@ -35,7 +35,7 @@ const taskReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case GET_TASK:
-            debugger
+
             return {
                 ...state,
                 ...action.payload,
@@ -43,7 +43,7 @@ const taskReducer = (state = initialState, action) => {
             }
 
         case ADD_USER_TASK:
-            debugger
+
             return {
                 ...state,
                 users: action.payload
@@ -71,9 +71,9 @@ export const getCurrentPage = (currentPage) => ({type: GET_CURRENT_PAGE, payload
 export const getTotalCount = (totalCount) => ({type: TOTAL_COUNT, payload: totalCount})
 
 
-export const getTaskThunkCreator = (currentPage) => async (dispatch) => {
+export const getTaskThunkCreator = (currentPage,sort,changeSort,changeSortUsername,changeSortEmail,changeSortStatus) => async (dispatch) => {
 
-    const data = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/?developer=Name&page=${currentPage}`)
+    const data = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/?developer=Name&page=${currentPage}&sort_field=${sort}&sort_direction=${changeSort && changeSortUsername && changeSortEmail && changeSortStatus ? 'asc': 'desc'}`)
         .then(response => response.json())
         .then(data => data)
     // .then(data => {         // return - промисы - для app_reducer
@@ -84,7 +84,6 @@ export const getTaskThunkCreator = (currentPage) => async (dispatch) => {
 }
 
 export const addTaskThunk = (users) => async (dispatch) => {
-    debugger
     //   let payload ={
     //        username: users.username,
     //           email: users.email,
@@ -126,13 +125,14 @@ export const addTaskThunk = (users) => async (dispatch) => {
         });
         const users = await response.json();
         dispatch(addUserTask(users));
+
         console.log('THUNK_USER ', users)
 
 
     } catch (error) {
         console.error('ERROR:', error);
     }
-
+    getTaskThunkCreator()
 //     const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
 //     const data = { users }
 //

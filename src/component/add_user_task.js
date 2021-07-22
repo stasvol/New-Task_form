@@ -41,23 +41,43 @@ import {MyPagination} from "../pagination/pagination";
 import AdminEdit from "./admin-edit";
 import {connect, useSelector} from "react-redux";
 import {addTaskThunk, getCurrentPage, getTaskThunkCreator, getTotalCount} from "../store/addTask-reducer";
+import {SortButton} from "./sort_button";
+import {Button} from "antd";
+import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
+import ButtonGroup from "antd/es/button/button-group";
+
+
 
 const AddUsersTasks = (props) => {
+
+    const [sort,setSort] = useState('')
+    const [changeSort,setChangeSort] = useState(true)
+    const [changeSortUsername,setChangeSortUsername] =useState(true)
+    const [changeSortEmail,setChangeSortEmail] =useState(true)
+    const [changeSortStatus,setChangeSortStatus] =useState(true)
+
+    // const changeSorts = changeSort || changeSortUsername || changeSortEmail || changeSortStatus
 
 
     const users = useSelector(state => state.task.users)
 
     useEffect(() => {
-        props.getTaskThunkCreator(props.currentPage)
-    }, [props.currentPage])
+        props.getTaskThunkCreator(props.currentPage,sort,changeSort,changeSortUsername,changeSortEmail,changeSortStatus)
+    }, [props.currentPage,sort,changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
 
-    const handleClick = () => {
-        console.log(JSON.stringify(users.message))
+    const handleChange=(e)=>{
+
+        setSort(e.target.value)
 
     }
-    console.log("TOTAL_COUNT ",props.totalCount)
+
+    const handleClick = () => {
+        setChangeSort(!changeSort)
+             console.log(changeSort)
+    }
+
     return <div>
-        <h1>Add task</h1>
+        <h2>ADD  TASKS</h2>
         <Formik
             initialValues={{username: '', email: '', text: ''}}
 
@@ -121,16 +141,40 @@ const AddUsersTasks = (props) => {
                     />
                     {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}
                     <div>
-                        <button onClick={handleClick} type="submit">Submit</button>
+                        <button  type="submit">Submit</button>
                     </div>
                 </form>
             )}
         </Formik>
+             <h2>LIST  TASKS</h2>
+        {/*<ButtonGroup>*/}
+        {/*    <Button  onClick={handleClick}>Sort ID { changeSort ?<ArrowUpOutlined/>:<ArrowDownOutlined />}</Button>*/}
+        {/*    <Button  onClick={handleClick}>Sort Username</Button>*/}
+        {/*    <Button  onClick={handleClick}>Sort Email </Button>*/}
+        {/*    <Button  onClick={handleClick}>Sort Status </Button>*/}
+
+        {/*</ButtonGroup>*/}
+
+           <SortButton message={props.message}
+                       setSort={setSort} sort={sort}
+                       setChangeSort={setChangeSort} changeSort = {changeSort}
+                       setChangeSortUsername={setChangeSortUsername} changeSortUsername={changeSortUsername}
+                       changeSortEmail={changeSortEmail} setChangeSortEmail={setChangeSortEmail}
+                       changeSortStatus={changeSortStatus} setChangeSortStatus={setChangeSortStatus}
+           />
+
+           {/*<select value={sort} onChange={handleChange} onDoubleClick={handleClick} className={ 'select' }>*/}
+           {/*    <option value={'id'} >Sort ID</option>*/}
+           {/*    <option value={'username'}>Sort USERNAME</option>*/}
+           {/*    <option value={'email'} >Sort EMAIL</option>*/}
+           {/*    <option value={'status'} >Sort STATUS</option>*/}
+           {/*</select>*/}
+
 
         {
             props.message?.tasks?.length &&
             props.message.tasks.map((el,i) => <div
-                style={{border: '1px solid black', padding: 10, margin: 10, maxWidth: 250}}
+                style={{border: '1px solid black', padding: 10, marginLeft: 0, marginTop:10, marginBottom:10, minWidth: 200}}
                 key={el.id}>
                 <div><b>Name:</b>{el.username} </div>
                 <div><b>Email: </b>{el.email} </div>
@@ -180,8 +224,8 @@ const AddUsersTasks = (props) => {
 
 }
 
+
 const mapStateToProps = (state) => {
-    debugger
 
     return {
         message: state.task.message,

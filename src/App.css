@@ -48,4 +48,9 @@ Field {
 button {
   margin: 1rem ;
 }
-
+.select {
+  width: 15rem;
+  height: 2rem;
+  margin-left: 1rem;
+  border-radius: 5px ;
+}

@@ -10,10 +10,12 @@ import {QQQ} from "./component/QQQ";
 import TasksUsers from "./component/tasks-users";
 import BasicExample from "./component/add_user_task"
 import AddUsersTasks from "./component/add_user_task";
+import {CreateTaskForm} from "./component/create_task_form";
+import AdminEdit from "./component/admin-edit";
 const {Header, Content, Footer} = Layout;
 
 
-function App() {
+function App(props) {
 
     return (
 
@@ -24,7 +26,8 @@ function App() {
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1"><NavLink to={'/Header'}>Add task</NavLink></Menu.Item>
                     <Menu.Item key="2"><NavLink to={'/QQQ'}>QQQ</NavLink></Menu.Item>
-                    <Menu.Item key="3"><NavLink to={'/ASD'}>ASD</NavLink></Menu.Item>
+                    {/*<Menu.Item key="3"><NavLink to={'/Create Task'}>Create Task</NavLink></Menu.Item>*/}
+                    <Menu.Item key="3"><NavLink to={'/Admin'}>Login Admin</NavLink></Menu.Item>
 
                 </Menu>
             </Header>
@@ -34,12 +37,13 @@ function App() {
                     <Suspense fallback={<div>Loading...</div>}>
                         <Switch>
                             <div className="site-layout-background" style={{padding: 24, minHeight: 380}}>
-                                >>>>>>>Content>>>>>>
+                                {/*>>>>>>>Content>>>>>>*/}
 
                                 <Route exact path={'/'} render={() => <Redirect to={'/Header'}/>}/>
-                                <Route path={'/Header'} render={() => <AddUsersTasks/>}/>
+                                <Route path={'/Header'} render={() => <AddUsersTasks />}/>
                                 <Route path={'/QQQ'} render={() => <QQQ/>}/>
-                                <Route path={'/ASD'} render={() => <div>ASD</div>}/>
+                                <Route path={'/Create Task'} render={() => <CreateTaskForm getTaskThunkCreator={props.getTaskThunkCreator} addTaskThunk={props.addTaskThunk} users={props.users}/>}/>
+                                <Route path={'/Admin'} render={() => <AdminEdit/>}/>
                                 {/*<HeaderTask/>*/}
                             </div>
                         </Switch>

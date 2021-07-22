@@ -39,11 +39,15 @@ let location = useLocation()
 
   }
     return <div>
+          <h1>Login Administrator</h1>
         {/*{ state.name === 'admin' &&  state.password === 123 ? <Redirect to={'/QQQ'}/> :*/}
-            <form >
-                <input onChange={handlerForm} type={'text'} name={'name'}  value={state.name}/>
-                <input onChange={handlerForm} type={'text'} name={'password'} value={state.password}/>
-                <button onClick={handlerInput} >Edit</button>
+            <form  >
+                <label htmlFor={'name'}>Name</label>
+                <input onChange={handlerForm} type={'text'} name={'name'}  value={state.name} placeholder={'admin'} required />
+                <label htmlFor={'email'}>Email</label>
+                <input onChange={handlerForm} type={'password'} name={'password'} value={state.password} placeholder={'123'} required={'password'} />
+                <label htmlFor={'email'}> </label>
+                <button onClick={handlerInput} >Login</button>
 
             </form>
         {/*}*/}
