@@ -38,13 +38,14 @@
 import React, {useEffect, useState} from 'react';
 import {Formik, Field} from 'formik';
 import {MyPagination} from "../pagination/pagination";
-import AdminEdit from "./admin-edit";
+import Entrance_admin from "./entrance_admin";
 import {connect, useSelector} from "react-redux";
 import {addTaskThunk, getCurrentPage, getTaskThunkCreator, getTotalCount} from "../store/addTask-reducer";
 import {SortButton} from "./sort_button";
 import {Button} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
 import ButtonGroup from "antd/es/button/button-group";
+import {EditAdmin} from "./edit_admin";
 
 
 
@@ -56,14 +57,17 @@ const AddUsersTasks = (props) => {
     const [changeSortEmail,setChangeSortEmail] =useState(true)
     const [changeSortStatus,setChangeSortStatus] =useState(true)
 
-    // const changeSorts = changeSort || changeSortUsername || changeSortEmail || changeSortStatus
+    // let changeSortAll = changeSort || changeSortUsername || changeSortEmail || changeSortStatus
+   let changeSortAll = changeSort && changeSortUsername && changeSortEmail && changeSortStatus
 
 
     const users = useSelector(state => state.task.users)
 
     useEffect(() => {
-        props.getTaskThunkCreator(props.currentPage,sort,changeSort,changeSortUsername,changeSortEmail,changeSortStatus)
-    }, [props.currentPage,sort,changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
+        props.getTaskThunkCreator(props.currentPage,sort,changeSortAll)
+            // ,changeSort,changeSortUsername,changeSortEmail,changeSortStatus)
+    }, [props.currentPage,sort,changeSortAll])
+        // changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
 
     const handleChange=(e)=>{
 
@@ -78,6 +82,7 @@ const AddUsersTasks = (props) => {
 
     return <div>
         <h2>ADD  TASKS</h2>
+
         <Formik
             initialValues={{username: '', email: '', text: ''}}
 
@@ -173,9 +178,10 @@ const AddUsersTasks = (props) => {
 
         {
             props.message?.tasks?.length &&
-            props.message.tasks.map((el,i) => <div
+            props.message.tasks.map((el,i) =>   <div
                 style={{border: '1px solid black', padding: 10, marginLeft: 0, marginTop:10, marginBottom:10, minWidth: 200}}
                 key={el.id}>
+                <EditAdmin status={el.status} text={el.text}/>
                 <div><b>Name:</b>{el.username} </div>
                 <div><b>Email: </b>{el.email} </div>
                 <div><b>Text: </b>{el.text}</div>
@@ -183,6 +189,7 @@ const AddUsersTasks = (props) => {
                 {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
             </div>)
         }
+
         {/*{props.users?.message &&*/}
 
         {/*Object.keys(props.users.message).map(el => <div*/}

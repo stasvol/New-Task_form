@@ -73,7 +73,7 @@ import React, {useEffect, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import {addTaskThunk, addUserTask, getTask, getTaskThunkCreator} from "../store/addTask-reducer";
 import {MyPagination} from "../pagination/pagination";
-import AdminEdit from "./admin-edit";
+import Entrance_admin from "./entrance_admin";
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 
@@ -220,7 +220,7 @@ const TasksUsers = (props) => {
       }
 
       <MyPagination/>
-      <AdminEdit/>
+      <Entrance_admin/>
   </div>
 
 }

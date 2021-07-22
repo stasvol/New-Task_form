@@ -11,7 +11,8 @@ import TasksUsers from "./component/tasks-users";
 import BasicExample from "./component/add_user_task"
 import AddUsersTasks from "./component/add_user_task";
 import {CreateTaskForm} from "./component/create_task_form";
-import AdminEdit from "./component/admin-edit";
+import EntranceAdmin from "./component/entrance_admin";
+import {EditAdmin} from "./component/edit_admin";
 const {Header, Content, Footer} = Layout;
 
 
@@ -43,8 +44,10 @@ function App(props) {
                                 <Route path={'/Header'} render={() => <AddUsersTasks />}/>
                                 <Route path={'/QQQ'} render={() => <QQQ/>}/>
                                 <Route path={'/Create Task'} render={() => <CreateTaskForm getTaskThunkCreator={props.getTaskThunkCreator} addTaskThunk={props.addTaskThunk} users={props.users}/>}/>
-                                <Route path={'/Admin'} render={() => <AdminEdit/>}/>
+                                <Route path={'/Admin'} render={() => <EntranceAdmin/>}/>
+                                 <Route path={'/Edit'} render={() => <EditAdmin/>}/>
                                 {/*<HeaderTask/>*/}
+
                             </div>
                         </Switch>
                     </Suspense>

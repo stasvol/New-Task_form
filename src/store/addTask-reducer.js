@@ -71,9 +71,12 @@ export const getCurrentPage = (currentPage) => ({type: GET_CURRENT_PAGE, payload
 export const getTotalCount = (totalCount) => ({type: TOTAL_COUNT, payload: totalCount})
 
 
-export const getTaskThunkCreator = (currentPage,sort,changeSort,changeSortUsername,changeSortEmail,changeSortStatus) => async (dispatch) => {
+export const getTaskThunkCreator = (currentPage,sort,changeSortAll,changeSort,changeSortUsername,changeSortEmail,changeSortStatus) =>
+    async (dispatch) => {
 
-    const data = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/?developer=Name&page=${currentPage}&sort_field=${sort}&sort_direction=${changeSort && changeSortUsername && changeSortEmail && changeSortStatus ? 'asc': 'desc'}`)
+    const data = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/?developer=Name&page=${currentPage}
+         &sort_field=${sort}&sort_direction=${changeSortAll ? 'asc' : 'desc'}`)
+         // ${changeSort && changeSortUsername && changeSortEmail && changeSortStatus ? 'asc': 'desc'}`)
         .then(response => response.json())
         .then(data => data)
     // .then(data => {         // return - промисы - для app_reducer
@@ -117,7 +120,7 @@ export const addTaskThunk = (users) => async (dispatch) => {
     formData.append("text", users.text);
 
     try {
-        const response = await fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name', {
+        const response = await fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name/edit/:id/token=beejee', {
             // credentials: 'same-origin',
             method: 'POST',
             mimeType: "multipart/form-data",

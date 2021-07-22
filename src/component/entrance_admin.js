@@ -3,7 +3,7 @@ import {Redirect} from "react-router-dom";
 import {useHistory,useLocation} from 'react-router-dom'
 
 
-const AdminEdit = () => {
+const EntranceAdmin = () => {
 
 const [state, setState ] = useState(()=>{
     return  {name: '', password: ''}
@@ -26,13 +26,13 @@ let location = useLocation()
      // if (password === 123 && value === 'admin' ) {
      //     <Redirect to={'/QQQ'}/>
      // }
-        console.log(e.target.name + '' + e.target.value)
+
   }
 
   const handlerInput =()=> {
 
      if (state.name === 'admin' && +state.password === 123 ) {
-         history.push('/QQQ')
+         history.push('/Edit')
          // <Redirect to={'/QQQ'}/>
 
      }
@@ -55,4 +55,4 @@ let location = useLocation()
     
 }
 
-export default AdminEdit
+export default EntranceAdmin
