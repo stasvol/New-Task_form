@@ -1,14 +1,17 @@
 import React, {useState} from 'react'
 import {Redirect} from "react-router-dom";
 import {useHistory,useLocation} from 'react-router-dom'
+import {useDispatch, useSelector} from "react-redux";
+import {getIsAuth} from "../store/addTask-reducer";
 
 
-const EntranceAdmin = () => {
-
+const EntranceAdmin = (props) => {
+// const isAuth = useSelector(state=> state.task.isAuth)
+//     const [isAuth, setIsAuth] = useState( false)
 const [state, setState ] = useState(()=>{
-    return  {name: '', password: ''}
+    return  {name: '', password: null}
 })
-
+const dispatch = useDispatch()
 const history = useHistory()
 let location = useLocation()
 // const [password,setPassword] = useState([])
@@ -31,13 +34,18 @@ let location = useLocation()
 
   const handlerInput =()=> {
 
-     if (state.name === 'admin' && +state.password === 123 ) {
-         history.push('/Edit')
+     if (state.name === 'admin' && +state.password === 123  ) {
+         history.push('/Header')
+
+         dispatch(getIsAuth(true))
          // <Redirect to={'/QQQ'}/>
 
+     } else {
+         alert("Error")
      }
 
   }
+    // console.log(isAuth)
     return <div>
           <h1>Login Administrator</h1>
         {/*{ state.name === 'admin' &&  state.password === 123 ? <Redirect to={'/QQQ'}/> :*/}

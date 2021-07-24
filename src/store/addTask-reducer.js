@@ -4,6 +4,7 @@ const GET_TASK = 'GET_TASK'
 const ADD_USER_TASK = 'ADD_USER_TASK'
 const GET_CURRENT_PAGE = 'GET_CURRENT_PAGE'
 const TOTAL_COUNT = 'TOTAL_COUNT'
+const IS_AUTH = 'IS_AUTH'
 
 const initialState = {
     message: [
@@ -27,7 +28,8 @@ const initialState = {
         }
     ],
     currentPage: 1,
-    totalCount: 0
+    totalCount: 0,
+    isAuth:false
 }
 
 const taskReducer = (state = initialState, action) => {
@@ -60,6 +62,11 @@ const taskReducer = (state = initialState, action) => {
                 ...state,
                 totalCount: action.payload
             }
+        case IS_AUTH :
+            return {
+                ...state,
+                isAuth: action.payload
+            }
 
         default:
             return state
@@ -69,6 +76,7 @@ export const getTask = (message) => ({type: GET_TASK, payload: message});
 export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users})
 export const getCurrentPage = (currentPage) => ({type: GET_CURRENT_PAGE, payload: currentPage})
 export const getTotalCount = (totalCount) => ({type: TOTAL_COUNT, payload: totalCount})
+export const getIsAuth = (isAuth) => ({type: IS_AUTH, payload: isAuth})
 
 
 export const getTaskThunkCreator = (currentPage,sort,changeSortAll,changeSort,changeSortUsername,changeSortEmail,changeSortStatus) =>

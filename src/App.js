@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Basic from "./component/tasks-users";
 // import HeaderTask, {BasicExample} from "./component/header";
-import React, {Suspense} from "react";
+import React, {Suspense, useState} from "react";
 import 'antd/dist/antd.css'
 import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom";
 import {Breadcrumb, Layout, Menu} from "antd";
@@ -16,7 +16,13 @@ import {EditAdmin} from "./component/edit_admin";
 const {Header, Content, Footer} = Layout;
 
 
-function App(props) {
+function App( {...props}) {
+
+    // const handlerProps = (value) => {
+    //      console.log(value)
+    // }
+
+    // const [isAuth, setIsAuth] = useState( false)
 
     return (
 
@@ -43,9 +49,11 @@ function App(props) {
                                 <Route exact path={'/'} render={() => <Redirect to={'/Header'}/>}/>
                                 <Route path={'/Header'} render={() => <AddUsersTasks />}/>
                                 <Route path={'/QQQ'} render={() => <QQQ/>}/>
-                                <Route path={'/Create Task'} render={() => <CreateTaskForm getTaskThunkCreator={props.getTaskThunkCreator} addTaskThunk={props.addTaskThunk} users={props.users}/>}/>
-                                <Route path={'/Admin'} render={() => <EntranceAdmin/>}/>
-                                 <Route path={'/Edit'} render={() => <EditAdmin/>}/>
+                                {/*<Route path={'/Create Task'} render={() => <CreateTaskForm getTaskThunkCreator={props.getTaskThunkCreator}*/}
+                                {/*                                                           addTaskThunk={props.addTaskThunk}*/}
+                                {/*                                                           users={props.users}/>}/>*/}
+                                <Route path={'/Admin'} render={() => <EntranceAdmin  />}/>
+                                 {/*<Route path={'/Edit'} render={() => <EditAdmin />}/>*/}
                                 {/*<HeaderTask/>*/}
 
                             </div>

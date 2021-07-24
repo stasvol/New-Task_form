@@ -40,7 +40,7 @@ import {Formik, Field} from 'formik';
 import {MyPagination} from "../pagination/pagination";
 import Entrance_admin from "./entrance_admin";
 import {connect, useSelector} from "react-redux";
-import {addTaskThunk, getCurrentPage, getTaskThunkCreator, getTotalCount} from "../store/addTask-reducer";
+import {addTaskThunk, getCurrentPage, getIsAuth, getTaskThunkCreator, getTotalCount} from "../store/addTask-reducer";
 import {SortButton} from "./sort_button";
 import {Button} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
@@ -56,6 +56,7 @@ const AddUsersTasks = (props) => {
     const [changeSortUsername,setChangeSortUsername] =useState(true)
     const [changeSortEmail,setChangeSortEmail] =useState(true)
     const [changeSortStatus,setChangeSortStatus] =useState(true)
+    // const [isAuth, setIsAuth] = useState( false)
 
     // let changeSortAll = changeSort || changeSortUsername || changeSortEmail || changeSortStatus
    let changeSortAll = changeSort && changeSortUsername && changeSortEmail && changeSortStatus
@@ -69,16 +70,16 @@ const AddUsersTasks = (props) => {
     }, [props.currentPage,sort,changeSortAll])
         // changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
 
-    const handleChange=(e)=>{
-
-        setSort(e.target.value)
-
-    }
-
-    const handleClick = () => {
-        setChangeSort(!changeSort)
-             console.log(changeSort)
-    }
+    // const handleChange=(e)=>{
+    //
+    //     setSort(e.target.value)
+    //
+    // }
+    //
+    // const handleClick = () => {
+    //     setChangeSort(!changeSort)
+    //          console.log(changeSort)
+    // }
 
     return <div>
         <h2>ADD  TASKS</h2>
@@ -98,7 +99,7 @@ const AddUsersTasks = (props) => {
 
                 props.addTaskThunk(users)
                 actions.setSubmitting(false);
-                console.log("USER ", users)
+
                 // setTimeout(() => {
                 //     alert(JSON.stringify(values, null, 2));
                 //     actions.setSubmitting(false);
@@ -181,13 +182,30 @@ const AddUsersTasks = (props) => {
             props.message.tasks.map((el,i) =>   <div
                 style={{border: '1px solid black', padding: 10, marginLeft: 0, marginTop:10, marginBottom:10, minWidth: 200}}
                 key={el.id}>
-                <EditAdmin status={el.status} text={el.text}/>
-                <div><b>Name:</b>{el.username} </div>
-                <div><b>Email: </b>{el.email} </div>
-                <div><b>Text: </b>{el.text}</div>
-                <div><b>Status:</b> {el.status}</div>
+                { !props.isAuth
+               ?
+                    <>
+                    <div><b>Name:</b>{el.username} </div>
+                    <div><b>Email: </b>{el.email} </div>
+                    <div><b>Text: </b>{el.text}</div>
+                    <div><b>Status:</b>{el.status}</div>
+                    </>
+               :
+                    <>
+                        <div><b>Name:</b>{el.username} </div>
+                        <div><b>Email: </b>{el.email} </div>
+                        {/*<div><b>Text: </b>{el.text}</div>*/}
+                        {/*<div><b>Status:</b>{el.status}</div>*/}
+                           <EditAdmin username={el.username} email={el.email} status={el.status} text={el.text}  getIsAuth={props.getIsAuth} />
+                       </>
+
+
+
+
+                }
                 {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
             </div>)
+
         }
 
         {/*{props.users?.message &&*/}
@@ -238,7 +256,8 @@ const mapStateToProps = (state) => {
         message: state.task.message,
         users: state.task.users,
         currentPage: state.task.currentPage,
-        totalCount: state.task.totalCount
+        totalCount: state.task.totalCount,
+        isAuth: state.task.isAuth
     }
 
 }
@@ -254,5 +273,4 @@ const mapStateToProps = (state) => {
 //
 // }
 
-
-export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,getCurrentPage,getTotalCount})(AddUsersTasks);
+export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,getCurrentPage,getTotalCount,getIsAuth})(AddUsersTasks);
