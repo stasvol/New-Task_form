@@ -39,8 +39,15 @@ import React, {useEffect, useState} from 'react';
 import {Formik, Field} from 'formik';
 import {MyPagination} from "../pagination/pagination";
 import Entrance_admin from "./entrance_admin";
-import {connect, useSelector} from "react-redux";
-import {addTaskThunk, getCurrentPage, getIsAuth, getTaskThunkCreator, getTotalCount} from "../store/addTask-reducer";
+import {connect, useDispatch, useSelector} from "react-redux";
+import {
+    addTaskThunk, editButton,
+    getCurrentPage,
+    getEditMode,
+    getIsAuth,
+    getTaskThunkCreator,
+    getTotalCount
+} from "../store/addTask-reducer";
 import {SortButton} from "./sort_button";
 import {Button} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
@@ -56,6 +63,7 @@ const AddUsersTasks = (props) => {
     const [changeSortUsername,setChangeSortUsername] =useState(true)
     const [changeSortEmail,setChangeSortEmail] =useState(true)
     const [changeSortStatus,setChangeSortStatus] =useState(true)
+    // const [editMode,setEditMode] =useState(false)
     // const [isAuth, setIsAuth] = useState( false)
 
     // let changeSortAll = changeSort || changeSortUsername || changeSortEmail || changeSortStatus
@@ -63,6 +71,7 @@ const AddUsersTasks = (props) => {
 
 
     const users = useSelector(state => state.task.users)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         props.getTaskThunkCreator(props.currentPage,sort,changeSortAll)
@@ -77,8 +86,9 @@ const AddUsersTasks = (props) => {
     // }
     //
     // const handleClick = () => {
-    //     setChangeSort(!changeSort)
-    //          console.log(changeSort)
+    //     // setEditMode(true)
+    //     // dispatch(editButton(id))
+    //     // dispatch(getEditMode(true))
     // }
 
     return <div>
@@ -192,11 +202,25 @@ const AddUsersTasks = (props) => {
                     </>
                :
                     <>
-                        <div><b>Name:</b>{el.username} </div>
-                        <div><b>Email: </b>{el.email} </div>
-                        {/*<div><b>Text: </b>{el.text}</div>*/}
-                        {/*<div><b>Status:</b>{el.status}</div>*/}
-                           <EditAdmin username={el.username} email={el.email} status={el.status} text={el.text}  getIsAuth={props.getIsAuth} />
+
+                        {
+                            props.editMode
+                                ?
+                                <EditAdmin  username={el.username}
+                                       email={el.email} status={el.status} text={el.text}
+                                            getIsAuth={props.getIsAuth}
+                                            // setEditMode={setEditMode}
+                                />
+                                :
+                                <div id={i}>
+                                <div><b>Name:</b>{el.username} </div>
+                                <div><b>Email: </b>{el.email} </div>
+                                <div><b>Text: </b>{el.text}</div>
+                                <div><b>Status:</b>{el.status}</div>
+                                    <Button onClick={() => dispatch(editButton(i))}>Edit</Button>
+                                </div>
+                        }
+
                        </>
 
 
@@ -251,13 +275,13 @@ const AddUsersTasks = (props) => {
 
 
 const mapStateToProps = (state) => {
-
     return {
         message: state.task.message,
         users: state.task.users,
         currentPage: state.task.currentPage,
         totalCount: state.task.totalCount,
-        isAuth: state.task.isAuth
+        isAuth: state.task.isAuth,
+        // editMode: state.task.editMode,
     }
 
 }
@@ -271,6 +295,9 @@ const mapStateToProps = (state) => {
 //         }
 //     }
 //
-// }
+//
 
-export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,getCurrentPage,getTotalCount,getIsAuth})(AddUsersTasks);
+
+export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,
+    getCurrentPage,getTotalCount,getIsAuth,editButton
+})(AddUsersTasks);

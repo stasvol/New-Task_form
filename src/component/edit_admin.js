@@ -5,9 +5,9 @@ import {generate, presetPalettes} from '@ant-design/colors';
 import {Field, Form, Formik, FormikProps} from 'formik';
 import EntranceAdmin from "./entrance_admin";
 import {useDispatch} from "react-redux";
-import {getIsAuth} from "../store/addTask-reducer";
+import {getEditMode, getIsAuth} from "../store/addTask-reducer";
 
-export const EditAdmin = ({text, status,email,username, ...props}) => {
+export const EditAdmin = ({text, status,email,username,setEditMode, ...props}) => {
 
     // const colors = generate('#1890ff');
     // console.log(colors);
@@ -23,8 +23,10 @@ export const EditAdmin = ({text, status,email,username, ...props}) => {
     //     props.setIsAuth(false)
     // }
    const handleClick =()=> {
-
-       dispatch(getIsAuth(false))
+        // dispatch(getEditMode(false))
+       // setEditMode(false)
+       // console.log(editText,editStatus)
+       // dispatch(getIsAuth(false))
    }
 
     const handleChangeStatus = (e) => {
@@ -36,8 +38,7 @@ export const EditAdmin = ({text, status,email,username, ...props}) => {
     // const handleClickEdit = () => {
     //     setIsAuth(!isAuth)
     // }
-    console.log(editStatus)
-    console.log(editText)
+
 
 
     return (
@@ -56,6 +57,8 @@ export const EditAdmin = ({text, status,email,username, ...props}) => {
             >
                 {(props, handleBlur,handleChange,values,touched,errors) => (
                     <Form>
+                        <div><b>Name:</b>{username} </div>
+                        <div><b>Email: </b>{email} </div>
 
                         <label htmlFor={'Text'} className={'label'}> Text:
                             <Field required={'text'} className={'textarea'}

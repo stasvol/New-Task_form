@@ -5,6 +5,9 @@ const ADD_USER_TASK = 'ADD_USER_TASK'
 const GET_CURRENT_PAGE = 'GET_CURRENT_PAGE'
 const TOTAL_COUNT = 'TOTAL_COUNT'
 const IS_AUTH = 'IS_AUTH'
+const EDIT_MODE = 'EDIT_MODE'
+const EDIT_BUTTON = 'EDIT_BUTTON'
+
 
 const initialState = {
     message: [
@@ -29,8 +32,12 @@ const initialState = {
     ],
     currentPage: 1,
     totalCount: 0,
-    isAuth:false
+    isAuth:false,
+    editMode: false
+
 }
+
+console.log(initialState.editMode)
 
 const taskReducer = (state = initialState, action) => {
 
@@ -41,8 +48,20 @@ const taskReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload,
+                //  ...action.payload.message.tasks.map((task,i) => {
+                //      if ( task.id === action.payload.message.tasks[i].id) {
+                //         return {...task, editMode:true };
+                //     }
+                //     return task
+                // }),
 
-            }
+                // message: state.message.task.map((task, isAuth) => {
+                //     if (isAuth===true && task.id === action.id) {
+                //         return {...task};
+                //     }
+                //     return task
+                // })
+         }
 
         case ADD_USER_TASK:
 
@@ -63,10 +82,44 @@ const taskReducer = (state = initialState, action) => {
                 totalCount: action.payload
             }
         case IS_AUTH :
+
             return {
                 ...state,
-                isAuth: action.payload
+                isAuth: action.payload,
+                //  message: state.message.tasks.map((task, i) => {
+                //     if ( task.id === i) {
+                //         return {...task };
+                //     }
+                //     return task
+                // }),
+
             }
+        // case EDIT_MODE :
+        //
+        //     return {
+        //         ...state,
+        //         editMode: action.payload,
+        //         //  message: state.message.tasks.map((task, i) => {
+        //         //     if ( task.id === i) {
+        //         //         return {...task };
+        //         //     }
+        //         //     return task
+        //         // }),
+        //
+        //     }
+        case EDIT_BUTTON :
+
+            return {
+                ...state,
+                message:[state.message.tasks].map((task, i) => {
+                    if ( i === action.payload ) {
+                        return {...task,  editMode:true};
+                    }
+                    return task
+                }),
+
+            }
+
 
         default:
             return state
@@ -77,6 +130,8 @@ export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users})
 export const getCurrentPage = (currentPage) => ({type: GET_CURRENT_PAGE, payload: currentPage})
 export const getTotalCount = (totalCount) => ({type: TOTAL_COUNT, payload: totalCount})
 export const getIsAuth = (isAuth) => ({type: IS_AUTH, payload: isAuth})
+// export const getEditMode = (editMode) => ({type: EDIT_MODE, payload: editMode})
+export const editButton = (i) => ({type: EDIT_BUTTON,payload:i})
 
 
 export const getTaskThunkCreator = (currentPage,sort,changeSortAll,changeSort,changeSortUsername,changeSortEmail,changeSortStatus) =>
@@ -110,7 +165,6 @@ export const addTaskThunk = (users) => async (dispatch) => {
     //       .then(function (res){ return res.json()})
     //       .then(function (formData){dispatch(addUserTask(formData))})
     //       .then(function (formData){ alert(JSON.stringify(formData))})
-
     let formData = new FormData();
     // for(const name in users) {
     //     formData.append(name, users[name]);
@@ -128,13 +182,14 @@ export const addTaskThunk = (users) => async (dispatch) => {
     formData.append("text", users.text);
 
     try {
-        const response = await fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name/edit/:id/token=beejee', {
+        const response = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name`, {
             // credentials: 'same-origin',
             method: 'POST',
             mimeType: "multipart/form-data",
             body: formData
         });
         const users = await response.json();
+        getTaskThunkCreator()
         dispatch(addUserTask(users));
 
         console.log('THUNK_USER ', users)
@@ -143,7 +198,7 @@ export const addTaskThunk = (users) => async (dispatch) => {
     } catch (error) {
         console.error('ERROR:', error);
     }
-    getTaskThunkCreator()
+
 //     const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
 //     const data = { users }
 //
