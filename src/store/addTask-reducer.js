@@ -7,6 +7,7 @@ const TOTAL_COUNT = 'TOTAL_COUNT'
 const IS_AUTH = 'IS_AUTH'
 const EDIT_MODE = 'EDIT_MODE'
 const EDIT_BUTTON = 'EDIT_BUTTON'
+const SAVE_BUTTON = 'SAVE_BUTTON'
 
 
 const initialState = {
@@ -47,7 +48,7 @@ const taskReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                ...action.payload,
+                message:action.payload,
                 //  ...action.payload.message.tasks.map((task,i) => {
                 //      if ( task.id === action.payload.message.tasks[i].id) {
                 //         return {...task, editMode:true };
@@ -110,10 +111,29 @@ const taskReducer = (state = initialState, action) => {
         case EDIT_BUTTON :
 
             return {
+
                 ...state,
-                message:[state.message.tasks].map((task, i) => {
+                message:state.message.map((task, i) => {
+
                     if ( i === action.payload ) {
-                        return {...task,  editMode:true};
+
+                        return {...task,  editMode:true}
+                    }
+                    return task
+                }),
+
+            }
+
+        case SAVE_BUTTON :
+
+            return {
+
+                ...state,
+                message:state.message.map((task, i) => {
+
+                    if ( i === action.payload ) {
+
+                        return {...task,  editMode:false}
                     }
                     return task
                 }),
@@ -125,13 +145,14 @@ const taskReducer = (state = initialState, action) => {
             return state
     }
 }
-export const getTask = (message) => ({type: GET_TASK, payload: message});
+export const getTask = (message) => ({type: GET_TASK, payload:message });
 export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users})
 export const getCurrentPage = (currentPage) => ({type: GET_CURRENT_PAGE, payload: currentPage})
 export const getTotalCount = (totalCount) => ({type: TOTAL_COUNT, payload: totalCount})
 export const getIsAuth = (isAuth) => ({type: IS_AUTH, payload: isAuth})
 // export const getEditMode = (editMode) => ({type: EDIT_MODE, payload: editMode})
 export const editButton = (i) => ({type: EDIT_BUTTON,payload:i})
+export const saveButton = (i) => ({type: SAVE_BUTTON,payload:i})
 
 
 export const getTaskThunkCreator = (currentPage,sort,changeSortAll,changeSort,changeSortUsername,changeSortEmail,changeSortStatus) =>
@@ -144,12 +165,12 @@ export const getTaskThunkCreator = (currentPage,sort,changeSortAll,changeSort,ch
         .then(data => data)
     // .then(data => {         // return - промисы - для app_reducer
     console.log('THUNK DATA  ', data)
-    dispatch(getTask(data));
+    dispatch(getTask(data.message.tasks));
     dispatch(getTotalCount(data.message.total_task_count))
     // console.log(props.currentPage)
 }
 
-export const addTaskThunk = (users) => async (dispatch) => {
+export const addTaskThunk = (users,sort) => async (dispatch) => {
     //   let payload ={
     //        username: users.username,
     //           email: users.email,

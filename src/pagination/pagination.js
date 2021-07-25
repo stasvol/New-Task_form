@@ -11,7 +11,6 @@ export const MyPagination = ({totalCount,currentPage,getCurrentPage}) => {
 
     const onChange = page => {
 
-        console.log(getCurrentPage);
         dispatch(getCurrentPage(page))
 
     };

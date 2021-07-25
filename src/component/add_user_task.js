@@ -46,13 +46,14 @@ import {
     getEditMode,
     getIsAuth,
     getTaskThunkCreator,
-    getTotalCount
+    getTotalCount, saveButton
 } from "../store/addTask-reducer";
 import {SortButton} from "./sort_button";
 import {Button} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
 import ButtonGroup from "antd/es/button/button-group";
 import {EditAdmin} from "./edit_admin";
+import {green} from "@ant-design/colors";
 
 
 
@@ -78,6 +79,10 @@ const AddUsersTasks = (props) => {
             // ,changeSort,changeSortUsername,changeSortEmail,changeSortStatus)
     }, [props.currentPage,sort,changeSortAll])
         // changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
+
+    useEffect(()=>{
+
+    },[])
 
     // const handleChange=(e)=>{
     //
@@ -188,8 +193,8 @@ const AddUsersTasks = (props) => {
 
 
         {
-            props.message?.tasks?.length &&
-            props.message.tasks.map((el,i) =>   <div
+            props.message?.length &&
+            props.message.map((el,i) =>   <div
                 style={{border: '1px solid black', padding: 10, marginLeft: 0, marginTop:10, marginBottom:10, minWidth: 200}}
                 key={el.id}>
                 { !props.isAuth
@@ -204,21 +209,20 @@ const AddUsersTasks = (props) => {
                     <>
 
                         {
-                            props.editMode
+                            !props.message[i].editMode
+
                                 ?
-                                <EditAdmin  username={el.username}
-                                       email={el.email} status={el.status} text={el.text}
-                                            getIsAuth={props.getIsAuth}
-                                            // setEditMode={setEditMode}
-                                />
-                                :
                                 <div id={i}>
-                                <div><b>Name:</b>{el.username} </div>
-                                <div><b>Email: </b>{el.email} </div>
-                                <div><b>Text: </b>{el.text}</div>
-                                <div><b>Status:</b>{el.status}</div>
-                                    <Button onClick={() => dispatch(editButton(i))}>Edit</Button>
+                                    <div><b>Name:</b>{el.username} </div>
+                                    <div><b>Email: </b>{el.email} </div>
+                                    <div><b>Text: </b>{el.text}</div>
+                                    <div><b>Status:</b>{el.status}</div>
+                                    <Button type={'primary'} onClick={() => dispatch(editButton(i))}>Edit</Button>
                                 </div>
+                                :
+                                <EditAdmin id={i} username={el.username}
+                                           email={el.email} status={el.status} text={el.text}
+                                           getIsAuth={props.getIsAuth}/>
                         }
 
                        </>
@@ -275,13 +279,14 @@ const AddUsersTasks = (props) => {
 
 
 const mapStateToProps = (state) => {
+
     return {
         message: state.task.message,
         users: state.task.users,
         currentPage: state.task.currentPage,
         totalCount: state.task.totalCount,
         isAuth: state.task.isAuth,
-        // editMode: state.task.editMode,
+        editMode: state.task.editMode,
     }
 
 }
@@ -293,11 +298,11 @@ const mapStateToProps = (state) => {
 //         addUsers:(users)=>{
 //             dispatch(addUserTask(users))
 //         }
+//         editButton:(i)=>{
+//             dispatch(editButton(i))
+//         }
 //     }
-//
-//
-
 
 export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,
-    getCurrentPage,getTotalCount,getIsAuth,editButton
+    getCurrentPage,getTotalCount,getIsAuth,editButton,saveButton
 })(AddUsersTasks);

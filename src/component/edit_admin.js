@@ -5,7 +5,7 @@ import {generate, presetPalettes} from '@ant-design/colors';
 import {Field, Form, Formik, FormikProps} from 'formik';
 import EntranceAdmin from "./entrance_admin";
 import {useDispatch} from "react-redux";
-import {getEditMode, getIsAuth} from "../store/addTask-reducer";
+import {getEditMode, getIsAuth, saveButton} from "../store/addTask-reducer";
 
 export const EditAdmin = ({text, status,email,username,setEditMode, ...props}) => {
 
@@ -22,8 +22,13 @@ export const EditAdmin = ({text, status,email,username,setEditMode, ...props}) =
     // props.handlerProps = () => {
     //     props.setIsAuth(false)
     // }
+
    const handleClick =()=> {
-        // dispatch(getEditMode(false))
+        dispatch(saveButton(props.id))
+       const token = "beejee";
+       const text =  editText
+       const status = editStatus
+
        // setEditMode(false)
        // console.log(editText,editStatus)
        // dispatch(getIsAuth(false))
@@ -46,7 +51,7 @@ export const EditAdmin = ({text, status,email,username,setEditMode, ...props}) =
             {/*<h2>EDIT TASKS ADMIN</h2>*/}
 
 
-                <Formik
+                <Formik id={props.id}
                 initialValues={{status: status, text:text, name: username,email:email }}
                 // onSubmit={(values, actions) => {
                 //     setTimeout(() => {
@@ -81,7 +86,7 @@ export const EditAdmin = ({text, status,email,username,setEditMode, ...props}) =
                                 <option value="11">задача отредактирована админом и выполнена</option>
                             </Field>
                         </label>
-                        <Button onClick={handleClick}>Save</Button>
+                        <Button  type={'submit'} onClick={handleClick}  style={{background:'#4bcf4f',color:"white"}} >Save</Button>
                         {/*<button type="submit">Submit</button>*/}
                     </Form>
                 )}

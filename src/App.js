@@ -32,7 +32,7 @@ function App( {...props}) {
                 <div className="logo"/>
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1"><NavLink to={'/Header'}>Add task</NavLink></Menu.Item>
-                    <Menu.Item key="2"><NavLink to={'/QQQ'}>QQQ</NavLink></Menu.Item>
+                    {/*<Menu.Item key="2"><NavLink to={'/QQQ'}>QQQ</NavLink></Menu.Item>*/}
                     {/*<Menu.Item key="3"><NavLink to={'/Create Task'}>Create Task</NavLink></Menu.Item>*/}
                     <Menu.Item key="3"><NavLink to={'/Admin'}>Login Admin</NavLink></Menu.Item>
 
@@ -48,7 +48,7 @@ function App( {...props}) {
 
                                 <Route exact path={'/'} render={() => <Redirect to={'/Header'}/>}/>
                                 <Route path={'/Header'} render={() => <AddUsersTasks />}/>
-                                <Route path={'/QQQ'} render={() => <QQQ/>}/>
+                                {/*<Route path={'/QQQ'} render={() => <QQQ/>}/>*/}
                                 {/*<Route path={'/Create Task'} render={() => <CreateTaskForm getTaskThunkCreator={props.getTaskThunkCreator}*/}
                                 {/*                                                           addTaskThunk={props.addTaskThunk}*/}
                                 {/*                                                           users={props.users}/>}/>*/}
