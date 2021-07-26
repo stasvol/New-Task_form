@@ -6,8 +6,9 @@ import {Field, Form, Formik, FormikProps} from 'formik';
 import EntranceAdmin from "./entrance_admin";
 import {useDispatch} from "react-redux";
 import {getEditMode, getIsAuth, saveButton} from "../store/addTask-reducer";
+import md5 from "md5";
 
-export const EditAdmin = ({text, status,email,username,setEditMode, ...props}) => {
+export const EditAdmin = ({text, status,email,username,setEditMode,users, ...props}) => {
 
     // const colors = generate('#1890ff');
     // console.log(colors);
@@ -23,12 +24,32 @@ export const EditAdmin = ({text, status,email,username,setEditMode, ...props}) =
     //     props.setIsAuth(false)
     // }
 
-   const handleClick =()=> {
-        dispatch(saveButton(props.id))
-       const token = "beejee";
-       const text =  editText
-       const status = editStatus
+   const handleClick = async ()=> {
 
+        dispatch(saveButton(props.id))
+
+       const token = encodeURIComponent("beejee")
+       const text =  encodeURIComponent(editText)
+       const status = encodeURIComponent(editStatus)
+       const params_string = `status=${status}&text=${text}&token=${token}`
+       const signature = md5(params_string)
+       const params_data =`${params_string}&signature=${signature}`
+
+
+       const  response =  fetch(`https://uxcandy.com/~shapoval/test-task-backend/edit/${props.index}?developer=Name`,{
+           // credentials:'same-origin',
+           method: 'POST',
+           mimeType: "multipart/form-data",
+           body: params_data,
+           headers:{
+               'Content-Type':'application/json'
+           }
+       })
+           const data = await response
+           console.log(params_data )
+
+
+       // console.log(params_data)
        // setEditMode(false)
        // console.log(editText,editStatus)
        // dispatch(getIsAuth(false))

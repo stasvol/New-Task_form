@@ -220,7 +220,7 @@ const AddUsersTasks = (props) => {
                                     <Button type={'primary'} onClick={() => dispatch(editButton(i))}>Edit</Button>
                                 </div>
                                 :
-                                <EditAdmin id={i} username={el.username}
+                                <EditAdmin id={i} username={el.username} index={el.id}
                                            email={el.email} status={el.status} text={el.text}
                                            getIsAuth={props.getIsAuth}/>
                         }
