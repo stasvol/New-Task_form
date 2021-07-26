@@ -5,10 +5,11 @@ import {generate, presetPalettes} from '@ant-design/colors';
 import {Field, Form, Formik, FormikProps} from 'formik';
 import EntranceAdmin from "./entrance_admin";
 import {useDispatch} from "react-redux";
-import {getEditMode, getIsAuth, saveButton} from "../store/addTask-reducer";
+import {getEditMode, getIsAuth, getTask, getTaskThunkCreator, saveButton} from "../store/addTask-reducer";
 import md5 from "md5";
+import $ from 'jquery';
 
-export const EditAdmin = ({text, status,email,username,setEditMode,users, ...props}) => {
+export const EditAdmin = ({text, status,email,username,setEditMode,sort,changeSortAll,currentPage, ...props}) => {
 
     // const colors = generate('#1890ff');
     // console.log(colors);
@@ -24,7 +25,7 @@ export const EditAdmin = ({text, status,email,username,setEditMode,users, ...pro
     //     props.setIsAuth(false)
     // }
 
-   const handleClick = async ()=> {
+   const handleClick = ()=> {
 
         dispatch(saveButton(props.id))
 
@@ -35,24 +36,47 @@ export const EditAdmin = ({text, status,email,username,setEditMode,users, ...pro
        const signature = md5(params_string)
        const params_data =`${params_string}&signature=${signature}`
 
+       // $(document).ready(function() {
+       //     const form = new FormData();
+       //     // form.append("username", "Example");
+       //     // form.append("email", "example@example.com");
+       //     form.append("text", {editText});
+       //     form.append("status", {editStatus});
+           $.ajax({
+               url: `https://uxcandy.com/~shapoval/test-task-backend/edit/${props.index}?developer=Name`,
+               crossDomain: true,
+               method: 'POST',
+               mimeType: "multipart/form-data",
+               // contentType: false,
+               // processData: false,
+               data: params_data,
+               dataType: "json",
+               success: function(data) {
+                   console.log(data);
+                   props.getTaskThunkCreator(currentPage,sort,changeSortAll)
 
-       const  response =  fetch(`https://uxcandy.com/~shapoval/test-task-backend/edit/${props.index}?developer=Name`,{
-           // credentials:'same-origin',
-           method: 'POST',
-           mimeType: "multipart/form-data",
-           body: params_data,
-           headers:{
-               'Content-Type':'application/json'
-           }
-       })
-           const data = await response
-           console.log(params_data )
+               }
+           });
+       // });
 
 
-       // console.log(params_data)
-       // setEditMode(false)
-       // console.log(editText,editStatus)
-       // dispatch(getIsAuth(false))
+       // const  response =  fetch(`https://uxcandy.com/~shapoval/test-task-backend/edit/:${props.index}?developer=Name`,{
+       //     // credentials:'same-origin',
+       //     method: 'POST',
+       //     // mimeType: "multipart/form-data",
+       //     body: params_data,
+       //     headers:{
+       //         'Content-Type':'application/json'
+       //     }
+       // })
+       //     const data = await response
+       //     console.log(params_data )
+       //
+       //
+       // // console.log(params_data)
+       // // setEditMode(false)
+       // // console.log(editText,editStatus)
+       // // dispatch(getIsAuth(false))
    }
 
     const handleChangeStatus = (e) => {

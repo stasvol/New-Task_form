@@ -213,7 +213,7 @@ export const addTaskThunk = (users,sort) => async (dispatch) => {
         getTaskThunkCreator()
         dispatch(addUserTask(users));
 
-        console.log('THUNK_USER ', users)
+
 
 
     } catch (error) {

@@ -22,7 +22,7 @@ export const SortButton = ({message,setChangeSort,
         // setSortUsername(sortUsername)
         // setSortEmail(sortEmail)
         // setSortStatus(sortStatus)
-        console.log(props.sort)
+
     }
     const handleClickUsername = () => {
 
@@ -35,7 +35,7 @@ export const SortButton = ({message,setChangeSort,
 
         props.setSort('email')
         setChangeSortEmail(!changeSortEmail)
-        console.log(changeSortEmail)
+
     }
 
     const handleClickStatus = () => {

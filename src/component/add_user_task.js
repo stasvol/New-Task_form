@@ -80,9 +80,6 @@ const AddUsersTasks = (props) => {
     }, [props.currentPage,sort,changeSortAll])
         // changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
 
-    useEffect(()=>{
-
-    },[])
 
     // const handleChange=(e)=>{
     //
@@ -220,9 +217,10 @@ const AddUsersTasks = (props) => {
                                     <Button type={'primary'} onClick={() => dispatch(editButton(i))}>Edit</Button>
                                 </div>
                                 :
-                                <EditAdmin id={i} username={el.username} index={el.id}
-                                           email={el.email} status={el.status} text={el.text}
-                                           getIsAuth={props.getIsAuth}/>
+                                <EditAdmin id={i} username={el.username} index={el.id} getTaskThunkCreator={props.getTaskThunkCreator}
+                                           email={el.email} status={el.status} text={el.text} message={props.message}
+                                           getIsAuth={props.getIsAuth} currentPage={props.currentPage}
+                                           sort={sort} changeSortAll={changeSortAll}/>
                         }
 
                        </>
@@ -259,11 +257,11 @@ const AddUsersTasks = (props) => {
         {/*    console.log(props.users)*/}
         {/*})*/}
         {/*}*/}
-        {users.message && Object.entries(users.message)
-            .map(value=> {
-                return  <div key={value.id}> <i>{value.join(':  ')}</i> </div>
-            })
-        }
+        {/*{users.message && Object.entries(users.message)*/}
+        {/*    .map(value=> {*/}
+        {/*        return  <div key={value.id}> <i>{value.join(':  ')}</i> </div>*/}
+        {/*    })*/}
+        {/*}*/}
         {/*{ props.users.message &&*/}
         {/*    Array.from(props.users.message, el=> el)*/}
         {/*}*/}
@@ -302,6 +300,7 @@ const mapStateToProps = (state) => {
 //             dispatch(editButton(i))
 //         }
 //     }
+
 
 export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,
     getCurrentPage,getTotalCount,getIsAuth,editButton,saveButton
