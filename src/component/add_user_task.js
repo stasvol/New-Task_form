@@ -38,22 +38,14 @@
 import React, {useEffect, useState} from 'react';
 import {Formik, Field} from 'formik';
 import {MyPagination} from "../pagination/pagination";
-import Entrance_admin from "./entrance_admin";
-import {connect, useDispatch, useSelector} from "react-redux";
-import {
-    addTaskThunk, editButton,
-    getCurrentPage,
-    getEditMode,
-    getIsAuth,
-    getTaskThunkCreator,
+import {connect, useDispatch} from "react-redux";
+import { editButton, getCurrentPage, getIsAuth, getTaskThunkCreator,
     getTotalCount, saveButton
 } from "../store/addTask-reducer";
 import {SortButton} from "./sort_button";
 import {Button} from "antd";
-import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
-import ButtonGroup from "antd/es/button/button-group";
 import {EditAdmin} from "./edit_admin";
-import {green} from "@ant-design/colors";
+
 
 
 
@@ -71,16 +63,21 @@ const AddUsersTasks = (props) => {
    let changeSortAll = changeSort && changeSortUsername && changeSortEmail && changeSortStatus
 
 
-    const users = useSelector(state => state.task.users)
+    // const users = useSelector(state => state.task.users)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        props.getTaskThunkCreator(props.currentPage,sort,changeSortAll)
+        props.getTaskThunkCreator(props.currentPage,sort,changeSortAll,props.totalCount)
             // ,changeSort,changeSortUsername,changeSortEmail,changeSortStatus)
-    }, [props.currentPage,sort,changeSortAll])
+    }, [props.currentPage,sort,changeSortAll,props.totalCount])
         // changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
 
 
+
+
+ // useEffect(()=>{
+ //     props.addTaskThunk(props.users,props.currentPage,props.totalCount)
+ // },[props.users,props.currentPage,props.totalCount])
     // const handleChange=(e)=>{
     //
     //     setSort(e.target.value)
@@ -93,36 +90,49 @@ const AddUsersTasks = (props) => {
     //     // dispatch(getEditMode(true))
     // }
 
+     const handleSubmit =(values,{ resetForm }, actions) => {
+         // id: Math.random()*10,
+         //     username: values.username,
+         //     email: values.email,
+         //     text: values.text,
+         console.log(values)
+         // props.addTaskThunk()
+         // actions.setSubmitting(false);
+
+
+             let formData = new FormData();
+
+             formData.append("username", values.username);
+             formData.append("email", values.email);
+             formData.append("text", values.text);
+
+             try {
+                   fetch(`https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name`, {
+                     // credentials: 'same-origin',
+                     method: 'POST',
+                     mimeType: "multipart/form-data",
+                     body: formData
+                 });
+                 // const users = await response.json();
+                 props.getTaskThunkCreator()
+                 // dispatch(addUserTask(users));
+                 resetForm();
+             } catch (error) {
+                 console.error('ERROR:', error);
+             }
+         }
+
+
+
+
     return <div>
         <h2>ADD  TASKS</h2>
 
-        <Formik
-            initialValues={{username: '', email: '', text: ''}}
-
-
-            onSubmit={(values, actions) => {
-
-                const users = {
-                    // id: Math.random()*10,
-                    username: values.username,
-                    email: values.email,
-                    text: values.text,
-                }
-
-                props.addTaskThunk(users)
-                actions.setSubmitting(false);
-
-                // setTimeout(() => {
-                //     alert(JSON.stringify(values, null, 2));
-                //     actions.setSubmitting(false);
-                // }, 1000);
-            }}
-
-        >
+        <Formik initialValues={{username: '', email: '', text: ''}} onSubmit={handleSubmit}>
             {({
                   values, errors, touched,
                   handleChange, handleBlur,
-                  handleSubmit, isValid, dirty, isSubmitting, ...props
+                  handleSubmit, isValid, dirty, isSubmitting,onReset, ...props
               }) => (
                 <form onSubmit={handleSubmit}>
 
@@ -219,7 +229,7 @@ const AddUsersTasks = (props) => {
                                 :
                                 <EditAdmin id={i} username={el.username} index={el.id} getTaskThunkCreator={props.getTaskThunkCreator}
                                            email={el.email} status={el.status} text={el.text} message={props.message}
-                                           getIsAuth={props.getIsAuth} currentPage={props.currentPage}
+                                           getIsAuth={props.getIsAuth} currentPage={props.currentPage} totalCount={props.totalCount}
                                            sort={sort} changeSortAll={changeSortAll}/>
                         }
 
@@ -280,7 +290,7 @@ const mapStateToProps = (state) => {
 
     return {
         message: state.task.message,
-        users: state.task.users,
+        // users: state.task.users,
         currentPage: state.task.currentPage,
         totalCount: state.task.totalCount,
         isAuth: state.task.isAuth,
@@ -302,6 +312,6 @@ const mapStateToProps = (state) => {
 //     }
 
 
-export default connect(mapStateToProps, {getTaskThunkCreator, addTaskThunk,
+export default connect(mapStateToProps, {getTaskThunkCreator,
     getCurrentPage,getTotalCount,getIsAuth,editButton,saveButton
 })(AddUsersTasks);

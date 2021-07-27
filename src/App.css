@@ -69,3 +69,19 @@ button {
   background: #4bcf4f;
   color:white;
 }
+.active {
+  background: #0f548d;
+  font-size: 1.5rem;
+  margin-right: 2rem;
+  padding-right: .5rem;
+  padding-left: .5rem;
+  color: aquamarine;
+}
+.admin {
+  background: #0f548d;
+  font-size: 1.5rem;
+  margin-left: 2rem;
+  padding-right: .5rem;
+  padding-left: .5rem;
+  color: lightgray;
+}

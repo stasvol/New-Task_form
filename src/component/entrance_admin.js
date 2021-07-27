@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import {Redirect} from "react-router-dom";
-import {useHistory,useLocation} from 'react-router-dom'
-import {useDispatch, useSelector} from "react-redux";
+import {useHistory} from 'react-router-dom'
+import {useDispatch} from "react-redux";
 import {getIsAuth} from "../store/addTask-reducer";
+
 
 
 const EntranceAdmin = (props) => {
@@ -13,9 +13,9 @@ const [state, setState ] = useState(()=>{
 })
 const dispatch = useDispatch()
 const history = useHistory()
-let location = useLocation()
-// const [password,setPassword] = useState([])
 
+// const [password,setPassword] = useState([])
+//     const [active,setActive] =useState(true)
     const handlerForm =(e)=>{
 
         e.preventDefault()
@@ -39,6 +39,7 @@ let location = useLocation()
 
          dispatch(getIsAuth(true))
          // <Redirect to={'/QQQ'}/>
+         // setActive(!active)
 
      } else {
          alert("Error")

@@ -1,7 +1,7 @@
 import ButtonGroup from "antd/es/button/button-group";
 import {Button} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
-import React, {useState} from "react";
+import React from "react";
 
 
 export const SortButton = ({message,setChangeSort,

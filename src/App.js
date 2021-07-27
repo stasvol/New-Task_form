@@ -1,38 +1,27 @@
-import logo from './logo.svg';
+
 import './App.css';
-import Basic from "./component/tasks-users";
-// import HeaderTask, {BasicExample} from "./component/header";
-import React, {Suspense, useState} from "react";
+import React, {Suspense} from "react";
 import 'antd/dist/antd.css'
 import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom";
-import {Breadcrumb, Layout, Menu} from "antd";
-import {QQQ} from "./component/QQQ";
-import TasksUsers from "./component/tasks-users";
-import BasicExample from "./component/add_user_task"
+import { Layout, Menu} from "antd";
 import AddUsersTasks from "./component/add_user_task";
-import {CreateTaskForm} from "./component/create_task_form";
 import EntranceAdmin from "./component/entrance_admin";
-import {EditAdmin} from "./component/edit_admin";
+
+
 const {Header, Content, Footer} = Layout;
 
 
-function App( {...props}) {
-
-    // const handlerProps = (value) => {
-    //      console.log(value)
-    // }
-
-    // const [isAuth, setIsAuth] = useState( false)
+function App( ) {
 
     return (
 
         <BrowserRouter>
 
             <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
-                <div className="logo"/>
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-                    <Menu.Item key="1"><NavLink to={'/Header'}>Add task</NavLink></Menu.Item>
-                    <Menu.Item key="3"><NavLink to={'/Admin'}>Login Admin</NavLink></Menu.Item>
+                {/*<div className="logo"/>*/}
+                <Menu theme="dark" mode="horizontal" defaultActiveKeys={['1']}>
+                    <NavLink  activeClassName={'active'} to={'/Header'}>Add task</NavLink>
+                    <NavLink  activeClassName={'admin'} to={'/Admin'}>Login Admin</NavLink>
 
                 </Menu>
             </Header>

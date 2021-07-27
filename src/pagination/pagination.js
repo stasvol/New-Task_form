@@ -1,6 +1,5 @@
 import React from "react";
 import {Pagination} from 'antd';
-import {getCurrentPage} from "../store/addTask-reducer";
 import {useDispatch} from "react-redux";
 
 

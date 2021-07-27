@@ -1,11 +1,8 @@
-import thunk from "redux-thunk";
 
 const GET_TASK = 'GET_TASK'
-const ADD_USER_TASK = 'ADD_USER_TASK'
 const GET_CURRENT_PAGE = 'GET_CURRENT_PAGE'
 const TOTAL_COUNT = 'TOTAL_COUNT'
 const IS_AUTH = 'IS_AUTH'
-const EDIT_MODE = 'EDIT_MODE'
 const EDIT_BUTTON = 'EDIT_BUTTON'
 const SAVE_BUTTON = 'SAVE_BUTTON'
 
@@ -22,23 +19,21 @@ const initialState = {
         //     // image_path: "https://uxcandy.com/~shapoval/test-task-backend/upload/user_images/1107fb5b/1524207101_avatarDoter.jpg"
         // }
     ],
-    users: [
-        {
-            // id: null,
-            username: '',
-            email: '',
-            text: '',
-
-        }
-    ],
+    // users: [
+    //     {
+    //         // id: null,
+    //         username: '',
+    //         email: '',
+    //         text: '',
+    //
+    //     }
+    // ],
     currentPage: 1,
     totalCount: 0,
     isAuth:false,
     editMode: false
 
 }
-
-console.log(initialState.editMode)
 
 const taskReducer = (state = initialState, action) => {
 
@@ -64,12 +59,12 @@ const taskReducer = (state = initialState, action) => {
                 // })
          }
 
-        case ADD_USER_TASK:
-
-            return {
-                ...state,
-                users: action.payload
-            }
+        // case ADD_USER_TASK:
+        //
+        //     return {
+        //         ...state,
+        //         users: action.payload
+        //     }
 
         case GET_CURRENT_PAGE :
             return {
@@ -146,7 +141,7 @@ const taskReducer = (state = initialState, action) => {
     }
 }
 export const getTask = (message) => ({type: GET_TASK, payload:message });
-export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users})
+// export const addUserTask = (users) => ({type: ADD_USER_TASK, payload: users})
 export const getCurrentPage = (currentPage) => ({type: GET_CURRENT_PAGE, payload: currentPage})
 export const getTotalCount = (totalCount) => ({type: TOTAL_COUNT, payload: totalCount})
 export const getIsAuth = (isAuth) => ({type: IS_AUTH, payload: isAuth})
@@ -164,61 +159,61 @@ export const getTaskThunkCreator = (currentPage,sort,changeSortAll,changeSort,ch
         .then(response => response.json())
         .then(data => data)
     // .then(data => {         // return - промисы - для app_reducer
-    console.log('THUNK DATA  ', data)
+
     dispatch(getTask(data.message.tasks));
     dispatch(getTotalCount(data.message.total_task_count))
     // console.log(props.currentPage)
 }
 
-export const addTaskThunk = (users,sort) => async (dispatch) => {
-    //   let payload ={
-    //        username: users.username,
-    //           email: users.email,
-    //           text: users.text
-    //   }
-    // let formData = new FormData()
-    //   formData.append('json', JSON.stringify(payload))
-    //   fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name',
-    //       {
-    //           method: 'POST',
-    //           body:formData
-    //       })
-    //       .then(function (res){ return res.json()})
-    //       .then(function (formData){dispatch(addUserTask(formData))})
-    //       .then(function (formData){ alert(JSON.stringify(formData))})
-    let formData = new FormData();
-    // for(const name in users) {
-    //     formData.append(name, users[name]);
-    // }
-    // for(const email in users) {
-    //     formData.append(email, users[email]);
-    // }
-    // for(const text in users) {
-    //     formData.append(text, users[text]);
-    // }
-
-    // formData.append("id", users.id);
-    formData.append("username", users.username);
-    formData.append("email", users.email);
-    formData.append("text", users.text);
-
-    try {
-        const response = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name`, {
-            // credentials: 'same-origin',
-            method: 'POST',
-            mimeType: "multipart/form-data",
-            body: formData
-        });
-        const users = await response.json();
-        getTaskThunkCreator()
-        dispatch(addUserTask(users));
-
-
-
-
-    } catch (error) {
-        console.error('ERROR:', error);
-    }
+// export const addTaskThunk = () => async (dispatch) => {
+//     //   let payload ={
+//     //        username: users.username,
+//     //           email: users.email,
+//     //           text: users.text
+//     //   }
+//     // let formData = new FormData()
+//     //   formData.append('json', JSON.stringify(payload))
+//     //   fetch('https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name',
+//     //       {
+//     //           method: 'POST',
+//     //           body:formData
+//     //       })
+//     //       .then(function (res){ return res.json()})
+//     //       .then(function (formData){dispatch(addUserTask(formData))})
+//     //       .then(function (formData){ alert(JSON.stringify(formData))})
+//     let formData = new FormData();
+//     // for(const name in users) {
+//     //     formData.append(name, users[name]);
+//     // }
+//     // for(const email in users) {
+//     //     formData.append(email, users[email]);
+//     // }
+//     // for(const text in users) {
+//     //     formData.append(text, users[text]);
+//     // }
+//
+//     // formData.append("id", users.id);
+//     // formData.append("username", users.username);
+//     // formData.append("email", users.email);
+//     // formData.append("text", users.text);
+//
+//     try {
+//         const response = await fetch(`https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name`, {
+//             // credentials: 'same-origin',
+//             method: 'POST',
+//             mimeType: "multipart/form-data",
+//             body: formData
+//         });
+//         const users = await response.json();
+//         getTaskThunkCreator()
+//         // dispatch(addUserTask(users));
+//
+//
+//
+//
+//     } catch (error) {
+//         console.error('ERROR:', error);
+//     }
 
 //     const url = 'https://uxcandy.com/~shapoval/test-task-backend/?developer=Name'
 //     const data = { users }
@@ -240,6 +235,6 @@ export const addTaskThunk = (users,sort) => async (dispatch) => {
 //    } catch (error){
 //         console.error('ERROR ',error)
 //    }
-}
+// }
 
 export default taskReducer

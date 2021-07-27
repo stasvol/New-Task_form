@@ -2,14 +2,14 @@ import React, {useState} from "react";
 import {Button} from "antd";
 import {red, volcano, gold, yellow, lime, green, cyan, blue, geekblue, purple, magenta, grey} from '@ant-design/colors';
 import {generate, presetPalettes} from '@ant-design/colors';
-import {Field, Form, Formik, FormikProps} from 'formik';
-import EntranceAdmin from "./entrance_admin";
+import {Field, Form, Formik} from 'formik';
+
 import {useDispatch} from "react-redux";
-import {getEditMode, getIsAuth, getTask, getTaskThunkCreator, saveButton} from "../store/addTask-reducer";
+import { saveButton} from "../store/addTask-reducer";
 import md5 from "md5";
 import $ from 'jquery';
 
-export const EditAdmin = ({text, status,email,username,setEditMode,sort,changeSortAll,currentPage, ...props}) => {
+export const EditAdmin = ({text, status,email,username,setEditMode,sort,changeSortAll,currentPage,totalCount, ...props}) => {
 
     // const colors = generate('#1890ff');
     // console.log(colors);
@@ -53,7 +53,7 @@ export const EditAdmin = ({text, status,email,username,setEditMode,sort,changeSo
                dataType: "json",
                success: function(data) {
                    console.log(data);
-                   props.getTaskThunkCreator(currentPage,sort,changeSortAll)
+                   props.getTaskThunkCreator(currentPage,sort,changeSortAll,totalCount)
 
                }
            });
