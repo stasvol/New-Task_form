@@ -36,17 +36,16 @@
 // export default HeaderTask
 
 import React, {useEffect, useState} from 'react';
-import {Formik, Field} from 'formik';
-import {MyPagination} from "../pagination/pagination";
 import {connect, useDispatch} from "react-redux";
+import {Formik, Field} from 'formik';
+import {Button} from "antd";
+
+import {MyPagination} from "../pagination/pagination";
 import { editButton, getCurrentPage, getIsAuth, getTaskThunkCreator,
     getTotalCount, saveButton
 } from "../store/addTask-reducer";
 import {SortButton} from "./sort_button";
-import {Button} from "antd";
 import {EditAdmin} from "./edit_admin";
-
-
 
 
 const AddUsersTasks = (props) => {

@@ -1,13 +1,13 @@
 import React, {useState} from "react";
+import {useDispatch} from "react-redux";
 import {Button} from "antd";
 import {red, volcano, gold, yellow, lime, green, cyan, blue, geekblue, purple, magenta, grey} from '@ant-design/colors';
 import {generate, presetPalettes} from '@ant-design/colors';
 import {Field, Form, Formik} from 'formik';
-
-import {useDispatch} from "react-redux";
-import { saveButton} from "../store/addTask-reducer";
 import md5 from "md5";
 import $ from 'jquery';
+
+import { saveButton} from "../store/addTask-reducer";
 
 export const EditAdmin = ({text, status,email,username,setEditMode,sort,changeSortAll,currentPage,totalCount, ...props}) => {
 

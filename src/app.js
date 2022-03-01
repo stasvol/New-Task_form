@@ -1,5 +1,5 @@
 
-import './App.css';
+import './app.css';
 import React, {Suspense} from "react";
 import 'antd/dist/antd.css'
 import {BrowserRouter, NavLink, Redirect, Route, Switch} from "react-router-dom";

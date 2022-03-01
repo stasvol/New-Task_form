@@ -1,7 +1,6 @@
 import React from "react";
-import {Pagination} from 'antd';
 import {useDispatch} from "react-redux";
-
+import {Pagination} from 'antd';
 
 export const MyPagination = ({totalCount,currentPage,getCurrentPage}) => {
 
