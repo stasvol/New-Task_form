@@ -1,17 +1,18 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 import {Pagination} from 'antd';
+import {usePagination} from "../component/hock/usePagination";
 
 export const MyPagination = ({totalCount,currentPage,getCurrentPage}) => {
 
-    const pageSize = 3;
-    const dispatch = useDispatch()
+    const { pageSize,onChange } = usePagination(getCurrentPage)
 
-    const onChange = page => {
-
-        dispatch(getCurrentPage(page))
-
-    };
+    // const pageSize = 3;
+    // const dispatch = useDispatch()
+    //
+    // const onChange = page => {
+    //     dispatch(getCurrentPage(page))
+    // };
 
 
     return <Pagination

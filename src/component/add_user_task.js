@@ -1,188 +1,78 @@
-// import React from "react";
-// import { Layout, Menu, Breadcrumb } from 'antd';
-// import {BrowserRouter, NavLink} from "react-router-dom"
-// import Basic from "./tasks";
-// import TasksUsers from "./tasks";
-// const { Header, Content, Footer } = Layout;
-//
-// const HeaderTask =(props) => {
-//
-//    return <Layout>
-//         <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
-//             <div className="logo"/>
-//             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-//                 <Menu.Item key="1"><NavLink to={'/HeaderTask'} >Add task</NavLink></Menu.Item>
-//                 <Menu.Item key="2"><NavLink to={'/QQQ'} >QQQ</NavLink></Menu.Item>
-//                 <Menu.Item key="3"><NavLink to={'/ASD'} >ASD</NavLink></Menu.Item>
-//
-//             </Menu>
-//         </Header>
-//         <Content className="site-layout" style={{padding: '0 50px', marginTop: 64}}>
-//             {/*<Breadcrumb style={{margin: '16px 0'}}>*/}
-//             {/*    <Breadcrumb.Item>Home</Breadcrumb.Item>*/}
-//             {/*    <Breadcrumb.Item>List</Breadcrumb.Item>*/}
-//             {/*    <Breadcrumb.Item>App</Breadcrumb.Item>*/}
-//             {/*</Breadcrumb>*/}
-//             <div className="site-layout-background" style={{padding: 24, minHeight: 380}}>
-//                 Content
-//                 <TasksUsers />
-//             </div>
-//         </Content>
-//         <Footer style={{textAlign: 'center'}}>App ©2021 Created by Artur</Footer>
-//     </Layout>
-//
-//
-// }
-// export default HeaderTask
-
-import React, {useEffect, useState} from 'react';
-import {connect, useDispatch} from "react-redux";
+import React from 'react';
+import { connect } from "react-redux";
 import {Formik, Field} from 'formik';
 import {Button} from "antd";
 
 import {MyPagination} from "../pagination/pagination";
 import { editButton, getCurrentPage, getIsAuth, getTaskThunkCreator,
-    getTotalCount, saveButton
-} from "../store/addTask-reducer";
-import {SortButton} from "./sort_button";
-import {EditAdmin} from "./edit_admin";
+getTotalCount, saveButton } from "../store/addTask-reducer";
+import SortButton from "./sort_button";
+import EditAdmin from "./edit_admin";
+import {useAddUsersTasks} from "./hock/useAddUsersTasks";
+import FormUserTask from "./form_user_task";
 
+const AddUsersTasks = ({getTaskThunkCreator,changeSortAll,currentPage,totalCount,message,isAuth,getIsAuth,getCurrentPage}) => {
 
-const AddUsersTasks = (props) => {
+    const {sort,setSort,changeSort,setChangeSort,
+        changeSortUsername,setChangeSortUsername,
+        changeSortEmail,setChangeSortEmail,
+        changeSortStatus,setChangeSortStatus,
+        dispatch,handleSubmit} = useAddUsersTasks(getTaskThunkCreator,currentPage,totalCount)
 
-    const [sort,setSort] = useState('')
-    const [changeSort,setChangeSort] = useState(true)
-    const [changeSortUsername,setChangeSortUsername] =useState(true)
-    const [changeSortEmail,setChangeSortEmail] =useState(true)
-    const [changeSortStatus,setChangeSortStatus] =useState(true)
-    // const [editMode,setEditMode] =useState(false)
-    // const [isAuth, setIsAuth] = useState( false)
-
-    // let changeSortAll = changeSort || changeSortUsername || changeSortEmail || changeSortStatus
-   let changeSortAll = changeSort && changeSortUsername && changeSortEmail && changeSortStatus
-
-
-    // const users = useSelector(state => state.task.users)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        props.getTaskThunkCreator(props.currentPage,sort,changeSortAll,props.totalCount)
-            // ,changeSort,changeSortUsername,changeSortEmail,changeSortStatus)
-    }, [props.currentPage,sort,changeSortAll,props.totalCount])
-        // changeSort,changeSortUsername,changeSortEmail,changeSortStatus])
-
-
-
-
- // useEffect(()=>{
- //     props.addTaskThunk(props.users,props.currentPage,props.totalCount)
- // },[props.users,props.currentPage,props.totalCount])
-    // const handleChange=(e)=>{
-    //
-    //     setSort(e.target.value)
-    //
-    // }
-    //
-    // const handleClick = () => {
-    //     // setEditMode(true)
-    //     // dispatch(editButton(id))
-    //     // dispatch(getEditMode(true))
-    // }
-
-     const handleSubmit =(values,{ resetForm }, actions) => {
-         // id: Math.random()*10,
-         //     username: values.username,
-         //     email: values.email,
-         //     text: values.text,
-         console.log(values)
-         // props.addTaskThunk()
-         // actions.setSubmitting(false);
-
-
-             let formData = new FormData();
-
-             formData.append("username", values.username);
-             formData.append("email", values.email);
-             formData.append("text", values.text);
-
-             try {
-                   fetch(`https://uxcandy.com/~shapoval/test-task-backend/create?developer=Name`, {
-                     // credentials: 'same-origin',
-                     method: 'POST',
-                     mimeType: "multipart/form-data",
-                     body: formData
-                 });
-                 // const users = await response.json();
-                 props.getTaskThunkCreator()
-                 // dispatch(addUserTask(users));
-                 resetForm();
-             } catch (error) {
-                 console.error('ERROR:', error);
-             }
-         }
-
-
-
-
-    return <div>
+  return <div>
         <h2>ADD  TASKS</h2>
 
-        <Formik initialValues={{username: '', email: '', text: ''}} onSubmit={handleSubmit}>
-            {({
-                  values, errors, touched,
-                  handleChange, handleBlur,
-                  handleSubmit, isValid, dirty, isSubmitting,onReset, ...props
-              }) => (
-                <form onSubmit={handleSubmit}>
+        <FormUserTask handleSubmit={handleSubmit}/>
 
-                    <label htmlFor={'username'}>Name</label>
-                    <Field required={'username'}
-                           type="text"
-                           onChange={handleChange}
-                           onBlur={handleBlur}
-                           value={values.username}
-                           name="username"
-                           placeholder={'name'}
-                    />
-                    {touched.name && errors.name && <div className={'error'} id="feedback">{errors.name}</div>}
-                    {/*{touched.name && errors.name && <p className={'error'}>{errors.name}</p>}*/}
-                    <label htmlFor={'Email'}>Email</label>
-                    <Field required={'email'}
-                           type="email"
-                           onChange={handleChange}
-                           onBlur={handleBlur}
-                           value={values.email}
-                           name="email"
-                           placeholder={'email'}
-                    />
-                    {touched.email && errors.email && <div className={'error'} id="feedback">{errors.email}</div>}
-                    <label htmlFor={'Text'}>Text</label>
-                    <Field required={'text'}
-                           component={'textarea'}
-                           type="textarea"
-                           onChange={handleChange}
-                           onBlur={handleBlur}
-                           value={values.text}
-                           name="text"
-                           placeholder={'add task'}
-                    />
-                    {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}
-                    <div>
-                        <button  type="submit">Submit</button>
-                    </div>
-                </form>
-            )}
-        </Formik>
+        {/*<Formik initialValues={{username: '', email: '', text: ''}} onSubmit={handleSubmit}>*/}
+        {/*    {({*/}
+        {/*          values, errors, touched,*/}
+        {/*          handleChange, handleBlur,*/}
+        {/*          handleSubmit, isValid, dirty, isSubmitting,onReset,*/}
+        {/*      }) => (*/}
+        {/*        <form onSubmit={handleSubmit}>*/}
+
+        {/*            <label htmlFor={'username'}>Name</label>*/}
+        {/*            <Field required={'username'}*/}
+        {/*                   type="text"*/}
+        {/*                   onChange={handleChange}*/}
+        {/*                   onBlur={handleBlur}*/}
+        {/*                   value={values.username}*/}
+        {/*                   name="username"*/}
+        {/*                   placeholder={'name'}*/}
+        {/*            />*/}
+        {/*            {touched.name && errors.name && <div className={'error'} id="feedback">{errors.name}</div>}*/}
+        {/*            /!*{touched.name && errors.name && <p className={'error'}>{errors.name}</p>}*!/*/}
+        {/*            <label htmlFor={'Email'}>Email</label>*/}
+        {/*            <Field required={'email'}*/}
+        {/*                   type="email"*/}
+        {/*                   onChange={handleChange}*/}
+        {/*                   onBlur={handleBlur}*/}
+        {/*                   value={values.email}*/}
+        {/*                   name="email"*/}
+        {/*                   placeholder={'email'}*/}
+        {/*            />*/}
+        {/*            {touched.email && errors.email && <div className={'error'} id="feedback">{errors.email}</div>}*/}
+        {/*            <label htmlFor={'Text'}>Text</label>*/}
+        {/*            <Field required={'text'}*/}
+        {/*                   component={'textarea'}*/}
+        {/*                   type="textarea"*/}
+        {/*                   onChange={handleChange}*/}
+        {/*                   onBlur={handleBlur}*/}
+        {/*                   value={values.text}*/}
+        {/*                   name="text"*/}
+        {/*                   placeholder={'add task'}*/}
+        {/*            />*/}
+        {/*            {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}*/}
+        {/*            <div>*/}
+        {/*                <button  type="submit">Submit</button>*/}
+        {/*            </div>*/}
+        {/*        </form>*/}
+        {/*    )}*/}
+        {/*</Formik>*/}
              <h2>LIST  TASKS</h2>
-        {/*<ButtonGroup>*/}
-        {/*    <Button  onClick={handleClick}>Sort ID { changeSort ?<ArrowUpOutlined/>:<ArrowDownOutlined />}</Button>*/}
-        {/*    <Button  onClick={handleClick}>Sort Username</Button>*/}
-        {/*    <Button  onClick={handleClick}>Sort Email </Button>*/}
-        {/*    <Button  onClick={handleClick}>Sort Status </Button>*/}
 
-        {/*</ButtonGroup>*/}
-
-           <SortButton message={props.message}
+           <SortButton message={message}
                        setSort={setSort} sort={sort}
                        setChangeSort={setChangeSort} changeSort = {changeSort}
                        setChangeSortUsername={setChangeSortUsername} changeSortUsername={changeSortUsername}
@@ -190,20 +80,13 @@ const AddUsersTasks = (props) => {
                        changeSortStatus={changeSortStatus} setChangeSortStatus={setChangeSortStatus}
            />
 
-           {/*<select value={sort} onChange={handleChange} onDoubleClick={handleClick} className={ 'select' }>*/}
-           {/*    <option value={'id'} >Sort ID</option>*/}
-           {/*    <option value={'username'}>Sort USERNAME</option>*/}
-           {/*    <option value={'email'} >Sort EMAIL</option>*/}
-           {/*    <option value={'status'} >Sort STATUS</option>*/}
-           {/*</select>*/}
-
-
         {
-            props.message?.length &&
-            props.message.map((el,i) =>   <div
-                style={{border: '1px solid black', padding: 10, marginLeft: 0, marginTop:10, marginBottom:10, minWidth: 200}}
+            message?.length &&
+            message.map((el,i) =>   <div className={'task'}
+                // style={{border: '1px solid black', padding: 10,
+                // marginLeft: 0, marginTop:10, marginBottom:10, minWidth: 200}}
                 key={el.id}>
-                { !props.isAuth
+                { !isAuth
                ?
                     <>
                     <div><b>Name:</b>{el.username} </div>
@@ -214,76 +97,36 @@ const AddUsersTasks = (props) => {
                :
                     <>
 
-                        {
-                            !props.message[i].editMode
-
-                                ?
+                        {!message[i].editMode
+                            ?
                                 <div id={i}>
                                     <div><b>Name:</b>{el.username} </div>
                                     <div><b>Email: </b>{el.email} </div>
                                     <div><b>Text: </b>{el.text}</div>
                                     <div><b>Status:</b>{el.status}</div>
-                                    <Button type={'primary'} onClick={() => dispatch(editButton(i))}>Edit</Button>
+                                    <Button type={'primary'}
+                                       onClick={() => dispatch(editButton(i))}>Edit</Button>
                                 </div>
-                                :
-                                <EditAdmin id={i} username={el.username} index={el.id} getTaskThunkCreator={props.getTaskThunkCreator}
-                                           email={el.email} status={el.status} text={el.text} message={props.message}
-                                           getIsAuth={props.getIsAuth} currentPage={props.currentPage} totalCount={props.totalCount}
+                            :
+                                <EditAdmin id={i} username={el.username} index={el.id}
+                                           getTaskThunkCreator={getTaskThunkCreator}
+                                           email={el.email} status={el.status}
+                                           text={el.text} message={message}
+                                           getIsAuth={getIsAuth} currentPage={currentPage}
+                                           totalCount={totalCount}
                                            sort={sort} changeSortAll={changeSortAll}/>
                         }
 
                        </>
-
-
-
-
                 }
-                {/*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*/}
             </div>)
-
         }
 
-        {/*{props.users?.message &&*/}
-
-        {/*Object.keys(props.users.message).map(el => <div*/}
-        {/*    style={{border: '1px solid black', padding: 10, margin: 10, maxWidth: 250}}*/}
-        {/*    key={el.id}>*/}
-        {/*    <div><b>Name:</b>{el.username} </div>*/}
-        {/*    <div><b>Email: </b>{el.email} </div>*/}
-        {/*    <div><b>Text: </b>{el.text}</div>*/}
-        {/*    <div><b>Status:</b> {el.status}</div>*/}
-
-        {/*    /!*<img style={{marginLeft:50}} width={100} src={el.image_path} alt={'image'}/>*!/*/}
-        {/*</div>) &&*/}
-        {/*console.log('MAP  ', props.users)*/}
-        {/*}*/}
-        {/*{props.users.message && Object.keys(props.users.message)*/}
-        {/*     && Object.values(props.users.message)*/}
-        {/*}*/}
-        {/*{props.users.message &&*/}
-        {/*Object.getOwnPropertyNames(props.users.message).forEach(function (val, idx, array) {*/}
-        {/*    console.log(val + ':' + props.users.message[val])*/}
-        {/*    console.log(props.users)*/}
-        {/*})*/}
-        {/*}*/}
-        {/*{users.message && Object.entries(users.message)*/}
-        {/*    .map(value=> {*/}
-        {/*        return  <div key={value.id}> <i>{value.join(':  ')}</i> </div>*/}
-        {/*    })*/}
-        {/*}*/}
-        {/*{ props.users.message &&*/}
-        {/*    Array.from(props.users.message, el=> el)*/}
-        {/*}*/}
-
-        <MyPagination
-                      currentPage={props.currentPage}
-                      totalCount={props.totalCount}
-                      getCurrentPage={props.getCurrentPage}
-        />
+        <MyPagination currentPage={currentPage}
+                      totalCount={totalCount}
+                      getCurrentPage={getCurrentPage}/>
     </div>
-
 }
-
 
 const mapStateToProps = (state) => {
 
@@ -295,21 +138,7 @@ const mapStateToProps = (state) => {
         isAuth: state.task.isAuth,
         editMode: state.task.editMode,
     }
-
 }
-// const mapDispatchToProps = (dispatch) => {
-//     return{
-//         getMessage:(data)=>{
-//             dispatch(getTask(data))
-//         },
-//         addUsers:(users)=>{
-//             dispatch(addUserTask(users))
-//         }
-//         editButton:(i)=>{
-//             dispatch(editButton(i))
-//         }
-//     }
-
 
 export default connect(mapStateToProps, {getTaskThunkCreator,
     getCurrentPage,getTotalCount,getIsAuth,editButton,saveButton
