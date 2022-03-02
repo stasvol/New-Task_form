@@ -2,6 +2,7 @@ import React from "react";
 import ButtonGroup from "antd/es/button/button-group";
 import {Button} from "antd";
 import {ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
+import { witchSortButton } from "../hock/useSortButton ";
 
 const SortButton = ({
                         message, setChangeSort, setSort,
@@ -31,13 +32,14 @@ const SortButton = ({
 
     return <ButtonGroup>
         {/*{props.changeSort ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}*/}
-        <Button onClick={handleClickId}>{changeSort ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}Sort ID</Button>
-        <Button onClick={handleClickUsername}>{changeSortUsername ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}Sort
-            Username</Button>
-        <Button onClick={handleClickEmail}>{changeSortEmail ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}Sort
-            Email</Button>
-        <Button onClick={handleClickStatus}>{changeSortStatus ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}Sort
-            Status</Button>
+        <Button onClick={handleClickId}>{changeSort ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}
+            Sort ID</Button>
+        <Button onClick={handleClickUsername}>{changeSortUsername ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}
+            Sort Username</Button>
+        <Button onClick={handleClickEmail}>{changeSortEmail ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}
+            Sort Email</Button>
+        <Button onClick={handleClickStatus}>{changeSortStatus ? <ArrowUpOutlined/> : <ArrowDownOutlined/>}
+            Sort Status</Button>
     </ButtonGroup>
 }
 export default SortButton

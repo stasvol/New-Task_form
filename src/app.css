@@ -32,13 +32,16 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 .error {
-  color: red;
+  color: #FF0000;
 }
+
 label,
 Field {
   display: block;
@@ -48,6 +51,7 @@ Field {
 button {
   margin: 1rem ;
 }
+
 .select {
   min-width: 15rem;
   height: 2rem;
@@ -59,16 +63,17 @@ button {
   margin: 1rem 1rem 1rem 0 ;
   font-weight: bold;
 }
+
 .textarea {
   height: 2rem;
   margin-left: 1.7rem;
-
-
 }
+
 .button {
   background: #4bcf4f;
   color:white;
 }
+
 .active {
   background: #0f548d;
   font-size: 1.5rem;
@@ -77,6 +82,7 @@ button {
   padding-left: .5rem;
   color: aquamarine;
 }
+
 .admin {
   background: #0f548d;
   font-size: 1.5rem;
@@ -93,4 +99,9 @@ button {
   margin-top: 10px;
   margin-bottom:10px;
   min-width: 200px;
+}
+
+.formik .saveButton {
+  background: #4bcf4f;
+  color: #fff;
 }

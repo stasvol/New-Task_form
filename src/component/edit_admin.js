@@ -8,52 +8,19 @@ import md5 from "md5";
 import $ from 'jquery';
 
 import { saveButton} from "../store/addTask-reducer";
+import {useEditAdmin} from "../hock/useEditAdmin";
 
-const EditAdmin = ({text, status,email,username,setEditMode,sort,changeSortAll,currentPage,totalCount, ...props}) => {
+const EditAdmin = ({text, status,email,username,
+                       sort,changeSortAll,
+                       currentPage,totalCount,id,index,
+                       getTaskThunkCreator}) => {
 
-    const [editStatus, setEditStatus] = useState(status)
-    const [editText, setEditText] = useState(text)
-
-    const dispatch = useDispatch()
-
-    const handleClick = ()=> {
-        dispatch(saveButton(props.id))
-
-       const token = encodeURIComponent("beejee")
-       const text =  encodeURIComponent(editText)
-       const status = encodeURIComponent(editStatus)
-       const params_string = `status=${status}&text=${text}&token=${token}`
-       const signature = md5(params_string)
-       const params_data =`${params_string}&signature=${signature}`
-
-           $.ajax({
-               url: `https://uxcandy.com/~shapoval/test-task-backend/edit/${props.index}?developer=Name`,
-               crossDomain: true,
-               method: 'POST',
-               mimeType: "multipart/form-data",
-               // contentType: false,
-               // processData: false,
-               data: params_data,
-               dataType: "json",
-               success: function(data) {
-                   console.log(data);
-                   props.getTaskThunkCreator(currentPage,sort,changeSortAll,totalCount)
-
-               }
-           });
-   }
-
-    const handleChangeStatus = (e) => {
-        setEditStatus(e.target.value)
-    }
-
-    const handleChangeText = (e) => {
-        setEditText(e.target.value)
-    }
+    const { editStatus, editText, handleChangeText, handleChangeStatus, handleClick } = useEditAdmin(
+        getTaskThunkCreator,currentPage,totalCount,text, status, sort,changeSortAll,id, index)
 
     return (
-        <>
-            <Formik id={props.id}
+        <div className={'formik'}>
+            <Formik id={id}
                 initialValues={{status: status, text:text, name: username,email:email }}>
 
                 {(props, handleBlur,handleChange,values,touched,errors) => (
@@ -82,12 +49,13 @@ const EditAdmin = ({text, status,email,username,setEditMode,sort,changeSortAll,c
                                 <option value="11">задача отредактирована админом и выполнена</option>
                             </Field>
                         </label>
-                        <Button  type={'submit'} onClick={handleClick}  style={{background:'#4bcf4f',color:"white"}} >Save</Button>
+                        <Button  type={'submit'} onClick={handleClick} className={'saveButton'}>Save</Button>
                         {/*<button type="submit">Submit</button>*/}
                     </Form>
                 )}
             </Formik>
-        </>
+        </div>
     )
 }
+
 export default EditAdmin
