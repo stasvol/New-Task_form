@@ -54,8 +54,10 @@
 //                        name="username"
 //                        placeholder={'name'}
 //                 />
-//                 {touched.name && errors.name && <div className={'error'} id="feedback">{errors.name}</div>}
-//                 {/*{touched.name && errors.name && <p className={'error'}>{errors.name}</p>}*/}
+//                 {touched.name && errors.name &&
+//                 <div className={'error'} id="feedback">{errors.name}</div>}
+//                 {/*{touched.name && errors.name &&
+//                 <p className={'error'}>{errors.name}</p>}*/}
 //                 <label htmlFor={'Email'}>Email</label>
 //                 <Field required={'email'}
 //                        type="email"
@@ -65,7 +67,8 @@
 //                        name="email"
 //                        placeholder={'email'}
 //                 />
-//                 {touched.email && errors.email && <div className={'error'} id="feedback">{errors.email}</div>}
+//                 {touched.email && errors.email &&
+//                 <div className={'error'} id="feedback">{errors.email}</div>}
 //                 <label htmlFor={'Text'}>Text</label>
 //                 <Field required={'text'}
 //                        component={'textarea'}
@@ -76,9 +79,11 @@
 //                        name="text"
 //                        placeholder={'add task'}
 //                 />
-//                 {touched.text && errors.text && <div className={'error'} id="feedback">{errors.text}</div>}
+//                 {touched.text && errors.text &&
+//                 <div className={'error'} id="feedback">{errors.text}</div>}
 //                 <div>
-//                     <button onClick={handleClick}  type="submit">Submit</button>
+//                     <button onClick={handleClick}
+//                     type="submit">Submit</button>
 //                 </div>
 //             </form>
 //         )}
