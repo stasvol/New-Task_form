@@ -19,6 +19,7 @@ const FormUserTask = ({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Name</label>
         <Field
+          className="field"
           name="username"
           onBlur={handleBlur}
           onChange={handleChange}
@@ -36,6 +37,7 @@ const FormUserTask = ({ handleSubmit }) => (
         {/* {touched.name && errors.name && <p className={'error'}>{errors.name}</p>} */}
         <label htmlFor="Email">Email</label>
         <Field
+          className="field"
           name="email"
           onBlur={handleBlur}
           onChange={handleChange}
@@ -51,6 +53,7 @@ const FormUserTask = ({ handleSubmit }) => (
         )}
         <label htmlFor="Text">Text</label>
         <Field
+          className="field"
           component="textarea"
           name="text"
           onBlur={handleBlur}

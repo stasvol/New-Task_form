@@ -43,9 +43,9 @@
 }
 
 label,
-field {
+.field {
   display: block;
-  margin: 1rem;
+  margin: 0 0 0.5rem 0;
 }
 
 /* button { */
