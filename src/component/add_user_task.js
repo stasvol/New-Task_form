@@ -162,11 +162,13 @@ AddUsersTasks.propTypes = {
   totalCount: PropTypes.number.isRequired,
   message: PropTypes.array.isRequired,
   isAuth: PropTypes.bool.isRequired,
-  getIsAuth: PropTypes.func.isRequired,
-  getCurrentPage: PropTypes.func.isRequired,
+  getIsAuth: PropTypes.func,
+  getCurrentPage: PropTypes.func,
 };
 AddUsersTasks.defaultProps = {
   changeSortAll: true,
+  getCurrentPage: () => {},
+  getIsAuth: () => {},
 };
 
 export default connect(mapStateToProps, {

@@ -55,7 +55,7 @@ const EntranceAdmin = () => {
   //     }
   // console.log(isAuth)
   return (
-    <div>
+    <>
       <h1>Login Administrator</h1>
       {/* { state.name === 'admin' &&  state.password === 123 ?
       <Redirect to={'/QQQ'}/> : */}
@@ -82,7 +82,7 @@ const EntranceAdmin = () => {
         <button onClick={handlerInput}>Login</button>
       </form>
       {/* } */}
-    </div>
+    </>
   );
 };
 

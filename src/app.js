@@ -32,12 +32,12 @@ const App = () => (
       <Content className="site-layout">
         <Suspense fallback={PagesLoad}>
           <Switch>
-            <div className="site-layout-background">
-              {/* >>>>>>>Content>>>>>> */}
-              <Route exact path="/" render={PagesRedirect} />
-              <Route path="/Header" render={PagesAddUsersTasks} />
-              <Route path="/Admin" render={PagesEntranceAdmin} />
-            </div>
+            {/* <div className="site-layout-background"> */}
+            {/* >>>>>>>Content>>>>>> */}
+            <Route exact path="/" render={PagesRedirect} />
+            <Route path="/Header" render={PagesAddUsersTasks} />
+            <Route path="/Admin" render={PagesEntranceAdmin} />
+            {/* </div> */}
           </Switch>
         </Suspense>
       </Content>
